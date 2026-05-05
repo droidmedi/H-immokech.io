@@ -84,19 +84,6 @@
       transform: scale(0.98);
     }
 
-    .admin-toggle {
-      background: #d68b45;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
     section {
       padding: 3rem 2rem;
       max-width: 1400px;
@@ -298,7 +285,7 @@
       justify-content: center;
     }
 
-    /* MODAL STYLES - Largeur augmentée */
+    /* MODAL STYLES */
     .modal {
       display: none;
       position: fixed;
@@ -434,6 +421,20 @@
       color: #e4cfb5;
       padding: 1.5rem;
       margin-top: 2rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    footer:hover {
+      background: #3a3530;
+    }
+    footer .copyright {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 30px;
+      transition: 0.2s;
+    }
+    footer .copyright:active {
+      background: rgba(255,255,255,0.1);
     }
 
     @media (max-width: 760px) {
@@ -471,10 +472,7 @@
     <a onclick="filterProperties('vente')">Vente</a>
     <a onclick="filterProperties('location')">Location</a>
   </div>
-  <div style="display: flex; gap: 10px;">
-    <a href="https://wa.me/212667092729?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20biens" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Contact</a>
-    <button class="admin-toggle" id="adminToggleBtn"><i class="fas fa-lock"></i> Admin</button>
-  </div>
+  <a href="https://wa.me/212667092729?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20biens" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Contact</a>
 </nav>
 
 <!-- SECTION ACCUEIL HERO -->
@@ -506,7 +504,7 @@
   </div>
 </section>
 
-<!-- MODAL ADMIN - Largeur augmentée -->
+<!-- MODAL ADMIN -->
 <div id="adminModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -549,8 +547,8 @@
   </div>
 </div>
 
-<footer>
-  <p>© 2025 H-immobilier - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</p>
+<footer id="footer">
+  <p><span class="copyright" id="copyrightSymbol">©</span> 2025 H-immobilier - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</p>
 </footer>
 
 <script>
@@ -573,6 +571,54 @@
   
   let currentProperties = [];
   let availableIds = [];
+  
+  // ---------- ADMIN ACCESS : 3 CLICS SUR LE SYMBOLE © ----------
+  let clickCount = 0;
+  let clickTimer = null;
+  
+  const copyrightElement = document.getElementById("copyrightSymbol");
+  
+  function resetClickCount() {
+    clickCount = 0;
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = null;
+    }
+  }
+  
+  copyrightElement?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    clickCount++;
+    
+    // Effet visuel léger
+    copyrightElement.style.transform = "scale(1.1)";
+    setTimeout(() => {
+      copyrightElement.style.transform = "scale(1)";
+    }, 200);
+    
+    // Timer pour réinitialiser si l'utilisateur ne clique pas assez vite
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+    }
+    clickTimer = setTimeout(() => {
+      resetClickCount();
+    }, 1000);
+    
+    // Si 3 clics sont détectés
+    if (clickCount === 3) {
+      resetClickCount();
+      // Demander le mot de passe
+      const pwd = prompt("Accès administrateur - Entrez le mot de passe:");
+      if (pwd === "admin123") {
+        const adminModal = document.getElementById("adminModal");
+        adminModal.style.display = "block";
+        loadProperties();
+        updateIdStatus();
+      } else if (pwd !== null) {
+        alert("Mot de passe incorrect");
+      }
+    }
+  });
   
   // Charger les biens depuis Firebase Realtime Database
   function loadProperties() {
@@ -700,12 +746,12 @@
     grid.innerHTML = html;
   }
   
-  // Afficher le tableau admin (avec colonne adresse en plus)
+  // Afficher le tableau admin
   function renderAdminTable(properties) {
     const tbody = document.getElementById("adminTableBody");
     if (!tbody) return;
     if (properties.length === 0) {
-      tbody.innerHTML = "<tr><td colspan='7'>Aucun bien</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='7'>Aucun bien</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
       return;
     }
     let html = "";
@@ -721,8 +767,8 @@
           <td>
             <button class="edit-btn" onclick="editProperty('${prop.id}')"><i class="fas fa-edit"></i> Modifier</button>
             <button onclick="deleteProperty('${prop.id}')"><i class="fas fa-trash"></i> Supprimer</button>
-          </td>
-        </tr>
+           </td>
+         </tr>
       `;
     });
     tbody.innerHTML = html;
@@ -817,19 +863,7 @@
   
   // Gestion de la modale admin
   const adminModal = document.getElementById("adminModal");
-  const adminToggleBtn = document.getElementById("adminToggleBtn");
   const closeModal = document.querySelector(".close-modal");
-  
-  adminToggleBtn?.addEventListener("click", () => {
-    const pwd = prompt("Accès administrateur - Entrez le mot de passe:");
-    if (pwd === "admin123") {
-      adminModal.style.display = "block";
-      loadProperties();
-      updateIdStatus();
-    } else if (pwd !== null) {
-      alert("Mot de passe incorrect");
-    }
-  });
   
   closeModal?.addEventListener("click", () => {
     adminModal.style.display = "none";
