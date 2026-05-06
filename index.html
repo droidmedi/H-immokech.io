@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>H-immobilier | Marrakech & Région</title>
+  <title>Himmokech | Marrakech & Région</title>
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Firebase SDKs pour Realtime Database -->
@@ -21,6 +21,11 @@
       background-color: #fef9f0;
       color: #2d2a24;
       scroll-behavior: smooth;
+    }
+
+    body.rtl {
+      direction: rtl;
+      font-family: 'Segoe UI', 'Tahoma', 'Traditional Arabic', sans-serif;
     }
 
     /* Navigation */
@@ -82,6 +87,32 @@
     .btn-wa:hover {
       background-color: #128C7E;
       transform: scale(0.98);
+    }
+
+    .lang-selector {
+      display: flex;
+      gap: 5px;
+      background: #f0e4d4;
+      padding: 4px 8px;
+      border-radius: 40px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+      color: #6b5a4b;
+    }
+    .lang-btn.active {
+      background: #b45f2b;
+      color: white;
+    }
+    .lang-btn:hover:not(.active) {
+      background: #d68b45;
+      color: white;
     }
 
     section {
@@ -362,7 +393,6 @@
       background: #d68b45;
     }
     
-    /* Section images multiples */
     .images-group {
       border: 1px solid #e2cfb5;
       border-radius: 28px;
@@ -458,7 +488,7 @@
       color: #b45f2b;
     }
 
-    /* Galerie Modale pour les photos */
+    /* Galerie Modale */
     .gallery-modal {
       display: none;
       position: fixed;
@@ -583,44 +613,54 @@
         font-size: 30px;
         padding: 5px 12px;
       }
+      .lang-selector {
+        order: 3;
+      }
     }
   </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">H-<span>immobilier</span></div>
+  <div class="logo">H<span>immokech</span></div>
   <div class="nav-links">
-    <a onclick="filterProperties('all')">Accueil</a>
-    <a onclick="filterProperties('vente')">Vente</a>
-    <a onclick="filterProperties('location')">Location</a>
+    <a id="navHome" onclick="filterProperties('all')">Accueil</a>
+    <a id="navSale" onclick="filterProperties('vente')">Vente</a>
+    <a id="navRent" onclick="filterProperties('location')">Location</a>
   </div>
-  <a href="https://wa.me/212667092729?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20biens" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Contact</a>
+  <div style="display: flex; gap: 10px; align-items: center;">
+    <div class="lang-selector">
+      <button class="lang-btn active" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a id="contactBtn" href="https://wa.me/212667092729?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20biens" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> <span id="contactText">Contact</span></a>
+  </div>
 </nav>
 
 <!-- SECTION ACCUEIL HERO -->
 <section id="accueil" class="hero">
   <div class="hero-content">
     <div class="hero-text">
-      <h1>Votre bien immobilier de rêve<br><span class="region">à Marrakech et région</span></h1>
-      <p style="font-size: 1.1rem;">Route d'Ourika • Ghmat • Tamazouzte • Sidi Ghyat • et toute la région</p>
-      <p>Villas, appartements, maisons, terrains | Vente & Location</p>
-      <a href="https://wa.me/212667092729?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20biens" class="btn-reserve" target="_blank"><i class="fab fa-whatsapp"></i> Contactez-nous sur WhatsApp</a>
+      <h1 id="heroTitle">Votre bien immobilier de rêve<br><span class="region" id="heroRegion">à Marrakech et région</span></h1>
+      <p id="heroSubtitle" style="font-size: 1.1rem;">Route d'Ourika • Ghmat • Tamazouzte • Sidi Ghyat • et toute la région</p>
+      <p id="heroDesc">Villas, appartements, maisons, terrains | Vente & Location</p>
+      <a id="heroBtn" href="https://wa.me/212667092729?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20biens" class="btn-reserve" target="_blank"><i class="fab fa-whatsapp"></i> <span id="heroBtnText">Contactez-nous sur WhatsApp</span></a>
       <div class="args-grid">
-        <div class="arg-card"><i class="fas fa-check-circle"></i><h3>Confiance</h3><p>Transaction sécurisée</p></div>
-        <div class="arg-card"><i class="fas fa-hand-holding-usd"></i><h3>Meilleurs prix</h3><p>Sans commission cachée</p></div>
-        <div class="arg-card"><i class="fas fa-headset"></i><h3>Support 24/7</h3><p>Réponse rapide WhatsApp</p></div>
+        <div class="arg-card"><i class="fas fa-check-circle"></i><h3 id="arg1Title">Confiance</h3><p id="arg1Desc">Transaction sécurisée</p></div>
+        <div class="arg-card"><i class="fas fa-hand-holding-usd"></i><h3 id="arg2Title">Meilleurs prix</h3><p id="arg2Desc">Sans commission cachée</p></div>
+        <div class="arg-card"><i class="fas fa-headset"></i><h3 id="arg3Title">Support 24/7</h3><p id="arg3Desc">Réponse rapide WhatsApp</p></div>
       </div>
     </div>
   </div>
 </section>
 
 <section>
-  <h2 class="section-title">Nos biens immobiliers</h2>
+  <h2 id="sectionPropertiesTitle" class="section-title">Nos biens immobiliers</h2>
   <div class="filters">
-    <button class="filter-btn active" data-filter="all">Tous</button>
-    <button class="filter-btn" data-filter="vente">Vente</button>
-    <button class="filter-btn" data-filter="location">Location</button>
+    <button class="filter-btn active" data-filter="all" id="filterAll">Tous</button>
+    <button class="filter-btn" data-filter="vente" id="filterSale">Vente</button>
+    <button class="filter-btn" data-filter="location" id="filterRent">Location</button>
   </div>
   <div id="propertiesGrid" class="properties-grid">
     <div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement des biens...</div>
@@ -631,7 +671,7 @@
 <div id="adminModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2><i class="fas fa-cog"></i> Administration des biens</h2>
+      <h2 id="adminTitle"><i class="fas fa-cog"></i> Administration des biens</h2>
       <span class="close-modal">&times;</span>
     </div>
     
@@ -650,27 +690,26 @@
         <option value="appartement">Appartement</option>
         <option value="terrain">Terrain</option>
       </select>
-      <input type="text" id="adminTitle" placeholder="Titre du bien (ex: Magnifique villa)" required>
-      <input type="text" id="adminPrice" placeholder="Prix (ex: 1 250 000 DH ou 4500 DH/mois)" required>
+      <input type="text" id="adminTitle" placeholder="Titre du bien" required>
+      <input type="text" id="adminPrice" placeholder="Prix" required>
       <input type="text" id="adminAddress" placeholder="Adresse / Localisation" required>
       <textarea id="adminDescription" rows="3" placeholder="Description détaillée..."></textarea>
       
-      <!-- Section images multiples -->
       <div class="images-group">
-        <label><i class="fas fa-images"></i> Photos du bien (max 6, min 1)</label>
+        <label id="photosLabel"><i class="fas fa-images"></i> Photos du bien (max 6, min 1)</label>
         <div id="imageInputsContainer" class="image-inputs">
           <div class="image-input-row">
             <input type="text" class="img-link-input" placeholder="Lien image 1 (obligatoire)">
             <button type="button" class="remove-img-btn" disabled>✕</button>
           </div>
         </div>
-        <button type="button" id="addImageBtn" class="add-img-btn"><i class="fas fa-plus"></i> Ajouter une photo (max 6)</button>
+        <button type="button" id="addImageBtn" class="add-img-btn"><i class="fas fa-plus"></i> Ajouter une photo</button>
       </div>
       
-      <button id="savePropertyBtn"><i class="fas fa-save"></i> Enregistrer le bien</button>
+      <button id="savePropertyBtn"><i class="fas fa-save"></i> Enregistrer</button>
     </div>
     
-    <h3>Liste des biens</h3>
+    <h3 id="propertiesListTitle">Liste des biens</h3>
     <div class="admin-list">
       <table id="adminTable">
         <thead>
@@ -682,7 +721,7 @@
   </div>
 </div>
 
-<!-- Galerie Modale pour les photos -->
+<!-- Galerie Modale -->
 <div id="galleryModal" class="gallery-modal">
   <span class="close-gallery">&times;</span>
   <div class="gallery-modal-content">
@@ -694,10 +733,130 @@
 </div>
 
 <footer id="footer">
-  <p><span class="copyright" id="copyrightSymbol">©</span> 2025 H-immobilier - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</p>
+  <p><span class="copyright" id="copyrightSymbol">©</span> <span id="footerText">2025 Himmokech - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</span></p>
 </footer>
 
 <script>
+  // --- TRADUCTIONS ---
+  const translations = {
+    fr: {
+      navHome: "Accueil", navSale: "Vente", navRent: "Location", contactText: "Contact",
+      heroTitle: "Votre bien immobilier de rêve", heroRegion: "à Marrakech et région",
+      heroSubtitle: "Route d'Ourika • Ghmat • Tamazouzte • Sidi Ghyat • et toute la région",
+      heroDesc: "Villas, appartements, maisons, terrains | Vente & Location",
+      heroBtnText: "Contactez-nous sur WhatsApp",
+      arg1Title: "Confiance", arg1Desc: "Transaction sécurisée",
+      arg2Title: "Meilleurs prix", arg2Desc: "Sans commission cachée",
+      arg3Title: "Support 24/7", arg3Desc: "Réponse rapide WhatsApp",
+      sectionPropertiesTitle: "Nos biens immobiliers",
+      filterAll: "Tous", filterSale: "Vente", filterRent: "Location",
+      adminTitle: "Administration des biens", photosLabel: "Photos du bien (max 6, min 1)",
+      addPhoto: "Ajouter une photo", saveBtn: "Enregistrer", propertiesListTitle: "Liste des biens",
+      footerText: "2025 Himmokech - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29",
+      contactWaMessage: "Bonjour, je souhaite des informations sur vos biens",
+      propertyTypes: { villa: "Villa", maison: "Maison", appartement: "Appartement", terrain: "Terrain" },
+      saleLabel: "Vente", rentLabel: "Location", contactAgent: "Contacter"
+    },
+    ar: {
+      navHome: "الرئيسية", navSale: "بيع", navRent: "إيجار", contactText: "اتصل بنا",
+      heroTitle: "عقار أحلامك", heroRegion: "في مراكش والمنطقة",
+      heroSubtitle: "طريق أوريكة • غمات • تمزوزت • سيدي غيات • والمنطقة بأكملها",
+      heroDesc: "فلل، شقق، منازل، أراضي | بيع وإيجار",
+      heroBtnText: "اتصل بنا على واتساب",
+      arg1Title: "ثقة", arg1Desc: "معاملات آمنة",
+      arg2Title: "أفضل الأسعار", arg2Desc: "بدون عمولات خفية",
+      arg3Title: "دعم 24/7", arg3Desc: "رد سريع عبر واتساب",
+      sectionPropertiesTitle: "عقاراتنا",
+      filterAll: "الكل", filterSale: "بيع", filterRent: "إيجار",
+      adminTitle: "إدارة العقارات", photosLabel: "صور العقار (6 كحد أقصى، 1 كحد أدنى)",
+      addPhoto: "إضافة صورة", saveBtn: "حفظ", propertiesListTitle: "قائمة العقارات",
+      footerText: "2025 H-عقارات - وكالة عقارية عبر الإنترنت | مراكش والمنطقة | اتصل بنا واتساب: 06 67 09 27 29",
+      contactWaMessage: "مرحباً، أرغب في الحصول على معلومات حول عقاراتكم",
+      propertyTypes: { villa: "فيلا", maison: "منزل", appartement: "شقة", terrain: "أرض" },
+      saleLabel: "بيع", rentLabel: "إيجار", contactAgent: "اتصل بالوكيل"
+    },
+    en: {
+      navHome: "Home", navSale: "Sale", navRent: "Rent", contactText: "Contact",
+      heroTitle: "Your dream property", heroRegion: "in Marrakech and region",
+      heroSubtitle: "Ourika Road • Ghmat • Tamazouzte • Sidi Ghyat • and the whole region",
+      heroDesc: "Villas, apartments, houses, lands | Sale & Rent",
+      heroBtnText: "Contact us on WhatsApp",
+      arg1Title: "Trust", arg1Desc: "Secure transactions",
+      arg2Title: "Best prices", arg2Desc: "No hidden fees",
+      arg3Title: "24/7 Support", arg3Desc: "Fast WhatsApp response",
+      sectionPropertiesTitle: "Our Properties",
+      filterAll: "All", filterSale: "Sale", filterRent: "Rent",
+      adminTitle: "Property Management", photosLabel: "Property photos (max 6, min 1)",
+      addPhoto: "Add photo", saveBtn: "Save", propertiesListTitle: "Properties List",
+      footerText: "2025 Himmokech - Online Real Estate Agency | Marrakech and region | WhatsApp: 06 67 09 27 29",
+      contactWaMessage: "Hello, I would like information about your properties",
+      propertyTypes: { villa: "Villa", maison: "House", appartement: "Apartment", terrain: "Land" },
+      saleLabel: "Sale", rentLabel: "Rent", contactAgent: "Contact Agent"
+    }
+  };
+
+  let currentLang = "fr";
+
+  function updateLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    
+    document.getElementById("navHome").innerText = t.navHome;
+    document.getElementById("navSale").innerText = t.navSale;
+    document.getElementById("navRent").innerText = t.navRent;
+    document.getElementById("contactText").innerText = t.contactText;
+    document.getElementById("heroTitle").innerHTML = t.heroTitle + '<br><span class="region" id="heroRegion">' + t.heroRegion + '</span>';
+    document.getElementById("heroSubtitle").innerText = t.heroSubtitle;
+    document.getElementById("heroDesc").innerText = t.heroDesc;
+    document.getElementById("heroBtnText").innerText = t.heroBtnText;
+    document.getElementById("arg1Title").innerText = t.arg1Title;
+    document.getElementById("arg1Desc").innerText = t.arg1Desc;
+    document.getElementById("arg2Title").innerText = t.arg2Title;
+    document.getElementById("arg2Desc").innerText = t.arg2Desc;
+    document.getElementById("arg3Title").innerText = t.arg3Title;
+    document.getElementById("arg3Desc").innerText = t.arg3Desc;
+    document.getElementById("sectionPropertiesTitle").innerText = t.sectionPropertiesTitle;
+    document.getElementById("filterAll").innerText = t.filterAll;
+    document.getElementById("filterSale").innerText = t.filterSale;
+    document.getElementById("filterRent").innerText = t.filterRent;
+    document.getElementById("adminTitle").innerHTML = '<i class="fas fa-cog"></i> ' + t.adminTitle;
+    document.getElementById("photosLabel").innerHTML = '<i class="fas fa-images"></i> ' + t.photosLabel;
+    document.getElementById("addImageBtn").innerHTML = '<i class="fas fa-plus"></i> ' + t.addPhoto;
+    document.getElementById("savePropertyBtn").innerHTML = '<i class="fas fa-save"></i> ' + t.saveBtn;
+    document.getElementById("propertiesListTitle").innerText = t.propertiesListTitle;
+    document.getElementById("footerText").innerText = t.footerText;
+    
+    // Mettre à jour le lien WhatsApp
+    const waLink = document.getElementById("contactBtn");
+    waLink.href = `https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage)}`;
+    const heroWaLink = document.getElementById("heroBtn");
+    heroWaLink.href = `https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage)}`;
+    
+    // Mettre à jour l'affichage des biens
+    if (currentProperties.length > 0) {
+      renderProperties(currentProperties);
+    }
+    
+    // Direction RTL pour arabe
+    if (lang === "ar") {
+      document.body.classList.add("rtl");
+      document.querySelector(".lang-selector").style.direction = "ltr";
+    } else {
+      document.body.classList.remove("rtl");
+    }
+    
+    // Mettre à jour les boutons de langue actifs
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+      if (btn.dataset.lang === lang) btn.classList.add("active");
+      else btn.classList.remove("active");
+    });
+  }
+
+  // Écouteurs des boutons de langue
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.addEventListener("click", () => updateLanguage(btn.dataset.lang));
+  });
+
   // Configuration Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyAYVktQ9s9EIOmI-Y5mhTrnReOkeCArPFk",
@@ -721,11 +880,9 @@
   let currentGalleryImages = [];
   let currentGalleryIndex = 0;
   
-  // Gestion des images multiples dans le formulaire admin
   function updateImageInputs(images = ['']) {
     const container = document.getElementById('imageInputsContainer');
     if (!container) return;
-    
     container.innerHTML = '';
     images.forEach((img, index) => {
       const row = document.createElement('div');
@@ -736,13 +893,10 @@
       `;
       container.appendChild(row);
     });
-    
     document.querySelectorAll('.remove-img-btn').forEach((btn, idx) => {
       btn.addEventListener('click', () => {
         const currentRows = document.querySelectorAll('.image-input-row');
-        if (currentRows.length > 1) {
-          currentRows[idx].remove();
-        }
+        if (currentRows.length > 1) currentRows[idx].remove();
       });
     });
   }
@@ -764,40 +918,30 @@
   
   function resetClickCount() {
     clickCount = 0;
-    if (clickTimer) {
-      clearTimeout(clickTimer);
-      clickTimer = null;
-    }
+    if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; }
   }
   
   copyrightElement?.addEventListener("click", (e) => {
     e.stopPropagation();
     clickCount++;
     copyrightElement.style.transform = "scale(1.1)";
-    setTimeout(() => {
-      copyrightElement.style.transform = "scale(1)";
-    }, 200);
-    
+    setTimeout(() => { copyrightElement.style.transform = "scale(1)"; }, 200);
     if (clickTimer) clearTimeout(clickTimer);
     clickTimer = setTimeout(() => resetClickCount(), 1000);
-    
     if (clickCount === 3) {
       resetClickCount();
-      const pwd = prompt("Accès administrateur - Entrez le mot de passe:");
+      const pwd = prompt(translations[currentLang]?.adminPassword || "Accès administrateur - Entrez le mot de passe:");
       if (pwd === "admin123") {
         document.getElementById("adminModal").style.display = "block";
         loadProperties();
         updateIdStatus();
-      } else if (pwd !== null) {
-        alert("Mot de passe incorrect");
-      }
+      } else if (pwd !== null) alert("Mot de passe incorrect");
     }
   });
   
   function loadProperties() {
     const grid = document.getElementById("propertiesGrid");
-    if (grid) grid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement des biens...</div>';
-    
+    if (grid) grid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement...</div>';
     propertiesRef.once("value", (snapshot) => {
       const properties = [];
       snapshot.forEach((childSnapshot) => {
@@ -810,74 +954,46 @@
       renderAdminTable(currentProperties);
     }).catch((error) => {
       console.error("Erreur chargement:", error);
-      document.getElementById("propertiesGrid").innerHTML = '<div style="text-align:center; color:red;">Erreur de chargement des données</div>';
+      document.getElementById("propertiesGrid").innerHTML = '<div style="text-align:center; color:red;">Erreur de chargement</div>';
     });
   }
   
   async function saveProperty(propertyData, customId = null) {
     let finalId = customId;
-    
     if (!finalId) {
-      if (availableIds.length > 0) {
-        finalId = availableIds.shift();
-      } else {
-        finalId = Date.now().toString();
-      }
-    } else {
-      const existing = currentProperties.find(p => p.id === finalId);
-      if (existing && customId && existing.id !== customId) {
-        alert("Cet ID est déjà utilisé");
-        return false;
-      }
+      finalId = availableIds.length > 0 ? availableIds.shift() : Date.now().toString();
     }
-    
     const updates = {};
     updates[`/properties/${finalId}`] = {
-      type: propertyData.type,
-      category: propertyData.category,
-      title: propertyData.title,
-      price: propertyData.price,
-      address: propertyData.address,
-      description: propertyData.description,
-      images: propertyData.images,
-      updatedAt: new Date().toISOString()
+      type: propertyData.type, category: propertyData.category, title: propertyData.title,
+      price: propertyData.price, address: propertyData.address, description: propertyData.description,
+      images: propertyData.images, updatedAt: new Date().toISOString()
     };
-    
     try {
       await database.ref().update(updates);
       await loadProperties();
       return true;
-    } catch(error) {
-      console.error("Erreur sauvegarde:", error);
-      alert("Erreur lors de l'enregistrement");
-      return false;
-    }
+    } catch(error) { alert("Erreur lors de l'enregistrement"); return false; }
   }
   
   async function deleteProperty(id) {
-    if (confirm("Supprimer ce bien ? L'ID deviendra disponible pour réutilisation.")) {
+    if (confirm("Supprimer ce bien ? L'ID sera réutilisable.")) {
       try {
         await database.ref(`/properties/${id}`).remove();
         availableIds.push(id);
         await loadProperties();
-      } catch(error) {
-        console.error("Erreur suppression:", error);
-        alert("Erreur lors de la suppression");
-      }
+      } catch(error) { alert("Erreur lors de la suppression"); }
     }
   }
   
-  function isIdAvailable(id) {
-    if (!id) return false;
-    return !currentProperties.some(p => p.id === id);
-  }
+  function isIdAvailable(id) { return !currentProperties.some(p => p.id === id); }
   
   function updateIdStatus() {
     const idInput = document.getElementById("adminId");
     const idStatus = document.getElementById("idStatus");
     const id = idInput.value.trim();
     if (id && isIdAvailable(id)) {
-      idStatus.innerHTML = '<span class="free-id-badge"><i class="fas fa-check"></i> ID disponible - sera réutilisé</span>';
+      idStatus.innerHTML = '<span class="free-id-badge"><i class="fas fa-check"></i> ID disponible</span>';
     } else if (id && !isIdAvailable(id)) {
       idStatus.innerHTML = '<span style="color:#e74c3c;"><i class="fas fa-times"></i> ID déjà utilisé</span>';
     } else {
@@ -885,23 +1001,18 @@
     }
   }
   
-  // Fonction pour ouvrir la galerie
   function openGallery(images, startIndex = 0) {
     if (!images || images.length === 0) return;
     currentGalleryImages = images;
     currentGalleryIndex = startIndex;
-    
     const modal = document.getElementById('galleryModal');
     const mainImg = document.getElementById('galleryMainImg');
     const thumbnailsDiv = document.getElementById('galleryThumbnails');
-    
     mainImg.src = images[startIndex];
-    
     thumbnailsDiv.innerHTML = '';
     images.forEach((img, idx) => {
       const thumb = document.createElement('img');
       thumb.src = img;
-      thumb.alt = `Photo ${idx + 1}`;
       if (idx === startIndex) thumb.classList.add('active');
       thumb.addEventListener('click', () => {
         currentGalleryIndex = idx;
@@ -911,27 +1022,14 @@
       });
       thumbnailsDiv.appendChild(thumb);
     });
-    
     modal.style.display = 'block';
-    updateGalleryNavButtons();
-  }
-  
-  function updateGalleryNavButtons() {
-    const prevBtn = document.getElementById('galleryPrev');
-    const nextBtn = document.getElementById('galleryNext');
-    if (prevBtn) prevBtn.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
-    if (nextBtn) nextBtn.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
   }
   
   function prevImage() {
     if (currentGalleryImages.length > 1) {
       currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
       document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
-      const thumbs = document.querySelectorAll('#galleryThumbnails img');
-      thumbs.forEach((t, i) => {
-        if (i === currentGalleryIndex) t.classList.add('active');
-        else t.classList.remove('active');
-      });
+      updateThumbnailsActive();
     }
   }
   
@@ -939,12 +1037,16 @@
     if (currentGalleryImages.length > 1) {
       currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
       document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
-      const thumbs = document.querySelectorAll('#galleryThumbnails img');
-      thumbs.forEach((t, i) => {
-        if (i === currentGalleryIndex) t.classList.add('active');
-        else t.classList.remove('active');
-      });
+      updateThumbnailsActive();
     }
+  }
+  
+  function updateThumbnailsActive() {
+    const thumbs = document.querySelectorAll('#galleryThumbnails img');
+    thumbs.forEach((t, i) => {
+      if (i === currentGalleryIndex) t.classList.add('active');
+      else t.classList.remove('active');
+    });
   }
   
   function renderProperties(properties) {
@@ -954,23 +1056,25 @@
       grid.innerHTML = "<div style='text-align:center; width:100%;'>Aucun bien disponible</div>";
       return;
     }
+    const t = translations[currentLang];
     let html = "";
     properties.forEach(prop => {
-      const typeLabel = prop.type === "vente" ? "🏷️ Vente" : "🔑 Location";
+      const typeLabel = prop.type === "vente" ? "🏷️ " + t.saleLabel : "🔑 " + t.rentLabel;
       const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['https://placehold.co/600x400?text=Image+non+disponible']);
       const mainImg = images[0];
       const imageUrls = JSON.stringify(images);
+      const categoryLabel = t.propertyTypes[prop.category] || prop.category?.toUpperCase() || "BIEN";
       
       html += `
         <div class="property-card">
           <img src="${mainImg}" alt="${escapeHtml(prop.title)}" onclick='openGallery(${imageUrls}, 0)'>
           <div class="property-info">
-            <div><span class="property-cat">${prop.category?.toUpperCase() || "BIEN"}</span><span class="property-cat">${typeLabel}</span></div>
+            <div><span class="property-cat">${categoryLabel}</span><span class="property-cat">${typeLabel}</span></div>
             <div class="property-title">${escapeHtml(prop.title)}</div>
             <div class="property-price">${escapeHtml(prop.price)}</div>
             <div class="property-address"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(prop.address)}</div>
             <div class="property-desc">${escapeHtml(prop.description?.substring(0, 100) || "")}${prop.description?.length > 100 ? "..." : ""}</div>
-            <a href="https://wa.me/212667092729?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20%22${encodeURIComponent(prop.title)}%22%20(%20${prop.price}%20)" class="contact-btn" target="_blank"><i class="fab fa-whatsapp"></i> Contacter</a>
+            <a href="https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage + " - " + prop.title)}" class="contact-btn" target="_blank"><i class="fab fa-whatsapp"></i> ${t.contactAgent}</a>
           </div>
         </div>
       `;
@@ -981,10 +1085,7 @@
   function renderAdminTable(properties) {
     const tbody = document.getElementById("adminTableBody");
     if (!tbody) return;
-    if (properties.length === 0) {
-      tbody.innerHTML = "<tr><td colspan='7'>Aucun bien</td></tr>";
-      return;
-    }
+    if (properties.length === 0) { tbody.innerHTML = "<tr><td colspan='7'>Aucun bien</td></tr>"; return; }
     let html = "";
     properties.forEach(prop => {
       html += `
@@ -992,13 +1093,10 @@
           <td><strong>${escapeHtml(prop.id)}</strong></td>
           <td>${escapeHtml(prop.type)}</td>
           <td>${escapeHtml(prop.category)}</td>
-          <td title="${escapeHtml(prop.title)}">${escapeHtml(prop.title).substring(0, 30)}${prop.title.length > 30 ? "..." : ""}</td>
+          <td>${escapeHtml(prop.title).substring(0, 30)}${prop.title.length > 30 ? "..." : ""}</td>
           <td>${escapeHtml(prop.price)}</td>
-          <td title="${escapeHtml(prop.address)}">${escapeHtml(prop.address).substring(0, 25)}${prop.address.length > 25 ? "..." : ""}</td>
-          <td>
-            <button class="edit-btn" onclick="editProperty('${prop.id}')"><i class="fas fa-edit"></i> Modifier</button>
-            <button onclick="deleteProperty('${prop.id}')"><i class="fas fa-trash"></i> Supprimer</button>
-           </td>
+          <td>${escapeHtml(prop.address).substring(0, 25)}${prop.address.length > 25 ? "..." : ""}</td>
+          <td><button class="edit-btn" onclick="editProperty('${prop.id}')"><i class="fas fa-edit"></i> Modifier</button><button onclick="deleteProperty('${prop.id}')"><i class="fas fa-trash"></i> Supprimer</button></td>
         </tr>
       `;
     });
@@ -1015,14 +1113,11 @@
       document.getElementById("adminPrice").value = prop.price;
       document.getElementById("adminAddress").value = prop.address;
       document.getElementById("adminDescription").value = prop.description || "";
-      
       const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['']);
       updateImageInputs(images);
       updateIdStatus();
     }
   };
-  
-  window.openGallery = openGallery;
   
   function escapeHtml(str) {
     if (!str) return "";
@@ -1038,9 +1133,7 @@
   function filterProperties(filter) {
     currentFilter = filter;
     let filtered = [...currentProperties];
-    if (filter !== "all") {
-      filtered = currentProperties.filter(p => p.type === filter);
-    }
+    if (filter !== "all") filtered = currentProperties.filter(p => p.type === filter);
     renderProperties(filtered);
     document.querySelectorAll(".filter-btn").forEach(btn => {
       if (btn.dataset.filter === filter) btn.classList.add("active");
@@ -1049,8 +1142,10 @@
   }
   
   window.filterProperties = filterProperties;
+  window.openGallery = openGallery;
+  window.deleteProperty = deleteProperty;
+  window.editProperty = editProperty;
   
-  // Sauvegarde admin
   document.getElementById("savePropertyBtn")?.addEventListener("click", async () => {
     const customId = document.getElementById("adminId").value.trim();
     const type = document.getElementById("adminType").value;
@@ -1060,32 +1155,15 @@
     const address = document.getElementById("adminAddress").value.trim();
     const description = document.getElementById("adminDescription").value.trim();
     const images = getImagesFromForm();
-    
     if (!title || !price || !address || images.length === 0 || !images[0]) {
-      alert("Veuillez remplir tous les champs obligatoires (minimum 1 photo)");
+      alert("Veuillez remplir tous les champs obligatoires");
       return;
     }
-    
-    if (images.length > 6) {
-      alert("Maximum 6 photos autorisées");
-      return;
-    }
-    
-    if (customId && !isIdAvailable(customId)) {
-      const existing = currentProperties.find(p => p.id === customId);
-      if (!existing || existing.id !== customId) {
-        alert("Cet ID n'est pas disponible");
-        return;
-      }
-    }
-    
+    if (images.length > 6) { alert("Maximum 6 photos"); return; }
     const propertyData = { type, category, title, price, address, description, images };
     const success = await saveProperty(propertyData, customId || null);
-    
     if (success) {
       document.getElementById("adminId").value = "";
-      document.getElementById("adminType").value = "vente";
-      document.getElementById("adminCategory").value = "villa";
       document.getElementById("adminTitle").value = "";
       document.getElementById("adminPrice").value = "";
       document.getElementById("adminAddress").value = "";
@@ -1097,43 +1175,27 @@
   });
   
   document.getElementById("adminId")?.addEventListener("input", updateIdStatus);
-  
-  // Ajouter champ image
   document.getElementById("addImageBtn")?.addEventListener("click", () => {
     const currentRows = document.querySelectorAll('.image-input-row');
     if (currentRows.length < 6) {
       const container = document.getElementById('imageInputsContainer');
       const row = document.createElement('div');
       row.className = 'image-input-row';
-      row.innerHTML = `
-        <input type="text" class="img-link-input" placeholder="Lien image ${currentRows.length + 1}">
-        <button type="button" class="remove-img-btn">✕</button>
-      `;
+      row.innerHTML = `<input type="text" class="img-link-input" placeholder="Lien image ${currentRows.length + 1}"><button type="button" class="remove-img-btn">✕</button>`;
       container.appendChild(row);
       row.querySelector('.remove-img-btn').addEventListener('click', () => row.remove());
-    } else {
-      alert("Maximum 6 photos");
-    }
+    } else alert("Maximum 6 photos");
   });
   
-  // Gestion modal admin
   const adminModal = document.getElementById("adminModal");
   const closeModal = document.querySelector(".close-modal");
-  
   closeModal?.addEventListener("click", () => { adminModal.style.display = "none"; });
   window.addEventListener("click", (e) => { if (e.target === adminModal) adminModal.style.display = "none"; });
   
-  // Gestion galerie modal
-  const galleryModal = document.getElementById("galleryModal");
+  const galleryModalEl = document.getElementById("galleryModal");
   const closeGallery = document.querySelector(".close-gallery");
-  
-  closeGallery?.addEventListener("click", () => {
-    galleryModal.style.display = "none";
-  });
-  window.addEventListener("click", (e) => { 
-    if (e.target === galleryModal) galleryModal.style.display = "none"; 
-  });
-  
+  closeGallery?.addEventListener("click", () => { galleryModalEl.style.display = "none"; });
+  window.addEventListener("click", (e) => { if (e.target === galleryModalEl) galleryModalEl.style.display = "none"; });
   document.getElementById("galleryPrev")?.addEventListener("click", prevImage);
   document.getElementById("galleryNext")?.addEventListener("click", nextImage);
   
@@ -1141,6 +1203,7 @@
     btn.addEventListener("click", () => filterProperties(btn.dataset.filter));
   });
   
+  updateLanguage("fr");
   loadProperties();
 </script>
 </body>
