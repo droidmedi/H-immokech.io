@@ -234,6 +234,7 @@
       width: 100%;
       height: 220px;
       object-fit: cover;
+      cursor: pointer;
     }
     .property-info {
       padding: 1.2rem;
@@ -360,6 +361,48 @@
     .admin-form button:hover {
       background: #d68b45;
     }
+    
+    /* Section images multiples */
+    .images-group {
+      border: 1px solid #e2cfb5;
+      border-radius: 28px;
+      padding: 1rem;
+      background: #fefaf5;
+    }
+    .images-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #b45f2b;
+    }
+    .image-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .image-input-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .image-input-row input {
+      flex: 1;
+    }
+    .remove-img-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .add-img-btn {
+      background: #27ae60;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+    }
+    
     .admin-list {
       overflow-x: auto;
       margin-top: 1rem;
@@ -415,6 +458,78 @@
       color: #b45f2b;
     }
 
+    /* Galerie Modale pour les photos */
+    .gallery-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.95);
+    }
+    .gallery-modal-content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .close-gallery {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 2001;
+    }
+    .gallery-main-img {
+      max-width: 90%;
+      max-height: 80%;
+      object-fit: contain;
+    }
+    .gallery-thumbnails {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      overflow-x: auto;
+      max-width: 90%;
+      padding: 10px;
+    }
+    .gallery-thumbnails img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      cursor: pointer;
+      border-radius: 8px;
+      opacity: 0.6;
+      transition: 0.2s;
+    }
+    .gallery-thumbnails img:hover, .gallery-thumbnails img.active {
+      opacity: 1;
+      border: 2px solid #d68b45;
+    }
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      font-size: 40px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 50%;
+      user-select: none;
+    }
+    .gallery-prev { left: 20px; }
+    .gallery-next { right: 20px; }
+    .gallery-nav:hover { background: rgba(0,0,0,0.8); }
+
     footer {
       text-align: center;
       background: #2d2a24;
@@ -459,6 +574,14 @@
       .admin-list td {
         white-space: normal;
         max-width: 150px;
+      }
+      .gallery-thumbnails img {
+        width: 60px;
+        height: 50px;
+      }
+      .gallery-nav {
+        font-size: 30px;
+        padding: 5px 12px;
       }
     }
   </style>
@@ -531,7 +654,19 @@
       <input type="text" id="adminPrice" placeholder="Prix (ex: 1 250 000 DH ou 4500 DH/mois)" required>
       <input type="text" id="adminAddress" placeholder="Adresse / Localisation" required>
       <textarea id="adminDescription" rows="3" placeholder="Description détaillée..."></textarea>
-      <input type="text" id="adminImageLink" placeholder="Lien image (ImageKite ou autre hébergement)" required>
+      
+      <!-- Section images multiples -->
+      <div class="images-group">
+        <label><i class="fas fa-images"></i> Photos du bien (max 6, min 1)</label>
+        <div id="imageInputsContainer" class="image-inputs">
+          <div class="image-input-row">
+            <input type="text" class="img-link-input" placeholder="Lien image 1 (obligatoire)">
+            <button type="button" class="remove-img-btn" disabled>✕</button>
+          </div>
+        </div>
+        <button type="button" id="addImageBtn" class="add-img-btn"><i class="fas fa-plus"></i> Ajouter une photo (max 6)</button>
+      </div>
+      
       <button id="savePropertyBtn"><i class="fas fa-save"></i> Enregistrer le bien</button>
     </div>
     
@@ -547,12 +682,23 @@
   </div>
 </div>
 
+<!-- Galerie Modale pour les photos -->
+<div id="galleryModal" class="gallery-modal">
+  <span class="close-gallery">&times;</span>
+  <div class="gallery-modal-content">
+    <div class="gallery-nav gallery-prev" id="galleryPrev">&#10094;</div>
+    <img id="galleryMainImg" class="gallery-main-img" src="" alt="Photo">
+    <div class="gallery-nav gallery-next" id="galleryNext">&#10095;</div>
+    <div id="galleryThumbnails" class="gallery-thumbnails"></div>
+  </div>
+</div>
+
 <footer id="footer">
   <p><span class="copyright" id="copyrightSymbol">©</span> 2025 H-immobilier - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</p>
 </footer>
 
 <script>
-  // ----------------------------- CONFIGURATION FIREBASE (Realtime Database) -----------------------------
+  // Configuration Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyAYVktQ9s9EIOmI-Y5mhTrnReOkeCArPFk",
     authDomain: "hicham-immobilier.firebaseapp.com",
@@ -564,7 +710,6 @@
     measurementId: "G-SJ8BZQ9QF0"
   };
 
-  // Initialisation Firebase
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
   const propertiesRef = database.ref("properties");
@@ -572,10 +717,49 @@
   let currentProperties = [];
   let availableIds = [];
   
-  // ---------- ADMIN ACCESS : 3 CLICS SUR LE SYMBOLE © ----------
+  // Variables pour la galerie
+  let currentGalleryImages = [];
+  let currentGalleryIndex = 0;
+  
+  // Gestion des images multiples dans le formulaire admin
+  function updateImageInputs(images = ['']) {
+    const container = document.getElementById('imageInputsContainer');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    images.forEach((img, index) => {
+      const row = document.createElement('div');
+      row.className = 'image-input-row';
+      row.innerHTML = `
+        <input type="text" class="img-link-input" placeholder="Lien image ${index + 1}" value="${escapeHtml(img || '')}">
+        <button type="button" class="remove-img-btn" ${images.length <= 1 ? 'disabled' : ''}>✕</button>
+      `;
+      container.appendChild(row);
+    });
+    
+    document.querySelectorAll('.remove-img-btn').forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        const currentRows = document.querySelectorAll('.image-input-row');
+        if (currentRows.length > 1) {
+          currentRows[idx].remove();
+        }
+      });
+    });
+  }
+  
+  function getImagesFromForm() {
+    const inputs = document.querySelectorAll('.img-link-input');
+    const images = [];
+    inputs.forEach(input => {
+      const val = input.value.trim();
+      if (val) images.push(val);
+    });
+    return images.length > 0 ? images : [''];
+  }
+  
+  // Admin access: 3 clics sur ©
   let clickCount = 0;
   let clickTimer = null;
-  
   const copyrightElement = document.getElementById("copyrightSymbol");
   
   function resetClickCount() {
@@ -589,29 +773,19 @@
   copyrightElement?.addEventListener("click", (e) => {
     e.stopPropagation();
     clickCount++;
-    
-    // Effet visuel léger
     copyrightElement.style.transform = "scale(1.1)";
     setTimeout(() => {
       copyrightElement.style.transform = "scale(1)";
     }, 200);
     
-    // Timer pour réinitialiser si l'utilisateur ne clique pas assez vite
-    if (clickTimer) {
-      clearTimeout(clickTimer);
-    }
-    clickTimer = setTimeout(() => {
-      resetClickCount();
-    }, 1000);
+    if (clickTimer) clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => resetClickCount(), 1000);
     
-    // Si 3 clics sont détectés
     if (clickCount === 3) {
       resetClickCount();
-      // Demander le mot de passe
       const pwd = prompt("Accès administrateur - Entrez le mot de passe:");
       if (pwd === "admin123") {
-        const adminModal = document.getElementById("adminModal");
-        adminModal.style.display = "block";
+        document.getElementById("adminModal").style.display = "block";
         loadProperties();
         updateIdStatus();
       } else if (pwd !== null) {
@@ -620,12 +794,9 @@
     }
   });
   
-  // Charger les biens depuis Firebase Realtime Database
   function loadProperties() {
     const grid = document.getElementById("propertiesGrid");
-    if (grid) {
-      grid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement des biens...</div>';
-    }
+    if (grid) grid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement des biens...</div>';
     
     propertiesRef.once("value", (snapshot) => {
       const properties = [];
@@ -643,7 +814,6 @@
     });
   }
   
-  // Sauvegarder un bien
   async function saveProperty(propertyData, customId = null) {
     let finalId = customId;
     
@@ -669,7 +839,7 @@
       price: propertyData.price,
       address: propertyData.address,
       description: propertyData.description,
-      imageLink: propertyData.imageLink,
+      images: propertyData.images,
       updatedAt: new Date().toISOString()
     };
     
@@ -684,7 +854,6 @@
     }
   }
   
-  // Supprimer un bien
   async function deleteProperty(id) {
     if (confirm("Supprimer ce bien ? L'ID deviendra disponible pour réutilisation.")) {
       try {
@@ -698,13 +867,11 @@
     }
   }
   
-  // Vérifier si un ID est disponible
   function isIdAvailable(id) {
     if (!id) return false;
     return !currentProperties.some(p => p.id === id);
   }
   
-  // Mettre à jour le statut de l'ID
   function updateIdStatus() {
     const idInput = document.getElementById("adminId");
     const idStatus = document.getElementById("idStatus");
@@ -718,7 +885,68 @@
     }
   }
   
-  // Afficher les biens sur la page publique
+  // Fonction pour ouvrir la galerie
+  function openGallery(images, startIndex = 0) {
+    if (!images || images.length === 0) return;
+    currentGalleryImages = images;
+    currentGalleryIndex = startIndex;
+    
+    const modal = document.getElementById('galleryModal');
+    const mainImg = document.getElementById('galleryMainImg');
+    const thumbnailsDiv = document.getElementById('galleryThumbnails');
+    
+    mainImg.src = images[startIndex];
+    
+    thumbnailsDiv.innerHTML = '';
+    images.forEach((img, idx) => {
+      const thumb = document.createElement('img');
+      thumb.src = img;
+      thumb.alt = `Photo ${idx + 1}`;
+      if (idx === startIndex) thumb.classList.add('active');
+      thumb.addEventListener('click', () => {
+        currentGalleryIndex = idx;
+        mainImg.src = images[idx];
+        document.querySelectorAll('#galleryThumbnails img').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      });
+      thumbnailsDiv.appendChild(thumb);
+    });
+    
+    modal.style.display = 'block';
+    updateGalleryNavButtons();
+  }
+  
+  function updateGalleryNavButtons() {
+    const prevBtn = document.getElementById('galleryPrev');
+    const nextBtn = document.getElementById('galleryNext');
+    if (prevBtn) prevBtn.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
+    if (nextBtn) nextBtn.style.display = currentGalleryImages.length > 1 ? 'flex' : 'none';
+  }
+  
+  function prevImage() {
+    if (currentGalleryImages.length > 1) {
+      currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+      document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
+      const thumbs = document.querySelectorAll('#galleryThumbnails img');
+      thumbs.forEach((t, i) => {
+        if (i === currentGalleryIndex) t.classList.add('active');
+        else t.classList.remove('active');
+      });
+    }
+  }
+  
+  function nextImage() {
+    if (currentGalleryImages.length > 1) {
+      currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+      document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
+      const thumbs = document.querySelectorAll('#galleryThumbnails img');
+      thumbs.forEach((t, i) => {
+        if (i === currentGalleryIndex) t.classList.add('active');
+        else t.classList.remove('active');
+      });
+    }
+  }
+  
   function renderProperties(properties) {
     const grid = document.getElementById("propertiesGrid");
     if (!grid) return;
@@ -729,9 +957,13 @@
     let html = "";
     properties.forEach(prop => {
       const typeLabel = prop.type === "vente" ? "🏷️ Vente" : "🔑 Location";
+      const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['https://placehold.co/600x400?text=Image+non+disponible']);
+      const mainImg = images[0];
+      const imageUrls = JSON.stringify(images);
+      
       html += `
         <div class="property-card">
-          <img src="${prop.imageLink}" alt="${prop.title}" onerror="this.src='https://placehold.co/600x400?text=Image+non+disponible'">
+          <img src="${mainImg}" alt="${escapeHtml(prop.title)}" onclick='openGallery(${imageUrls}, 0)'>
           <div class="property-info">
             <div><span class="property-cat">${prop.category?.toUpperCase() || "BIEN"}</span><span class="property-cat">${typeLabel}</span></div>
             <div class="property-title">${escapeHtml(prop.title)}</div>
@@ -746,12 +978,11 @@
     grid.innerHTML = html;
   }
   
-  // Afficher le tableau admin
   function renderAdminTable(properties) {
     const tbody = document.getElementById("adminTableBody");
     if (!tbody) return;
     if (properties.length === 0) {
-      tbody.innerHTML = "<tr><td colspan='7'>Aucun bien</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+      tbody.innerHTML = "<tr><td colspan='7'>Aucun bien</td></tr>";
       return;
     }
     let html = "";
@@ -768,13 +999,12 @@
             <button class="edit-btn" onclick="editProperty('${prop.id}')"><i class="fas fa-edit"></i> Modifier</button>
             <button onclick="deleteProperty('${prop.id}')"><i class="fas fa-trash"></i> Supprimer</button>
            </td>
-         </tr>
+        </tr>
       `;
     });
     tbody.innerHTML = html;
   }
   
-  // Éditer un bien
   window.editProperty = function(id) {
     const prop = currentProperties.find(p => p.id === id);
     if (prop) {
@@ -785,12 +1015,15 @@
       document.getElementById("adminPrice").value = prop.price;
       document.getElementById("adminAddress").value = prop.address;
       document.getElementById("adminDescription").value = prop.description || "";
-      document.getElementById("adminImageLink").value = prop.imageLink;
+      
+      const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['']);
+      updateImageInputs(images);
       updateIdStatus();
     }
   };
   
-  // Échapper les caractères HTML
+  window.openGallery = openGallery;
+  
   function escapeHtml(str) {
     if (!str) return "";
     return str.replace(/[&<>]/g, function(m) {
@@ -801,7 +1034,6 @@
     });
   }
   
-  // Filtrage des biens
   let currentFilter = "all";
   function filterProperties(filter) {
     currentFilter = filter;
@@ -818,7 +1050,7 @@
   
   window.filterProperties = filterProperties;
   
-  // Sauvegarde depuis le formulaire admin
+  // Sauvegarde admin
   document.getElementById("savePropertyBtn")?.addEventListener("click", async () => {
     const customId = document.getElementById("adminId").value.trim();
     const type = document.getElementById("adminType").value;
@@ -827,10 +1059,15 @@
     const price = document.getElementById("adminPrice").value.trim();
     const address = document.getElementById("adminAddress").value.trim();
     const description = document.getElementById("adminDescription").value.trim();
-    const imageLink = document.getElementById("adminImageLink").value.trim();
+    const images = getImagesFromForm();
     
-    if (!title || !price || !address || !imageLink) {
-      alert("Veuillez remplir tous les champs obligatoires");
+    if (!title || !price || !address || images.length === 0 || !images[0]) {
+      alert("Veuillez remplir tous les champs obligatoires (minimum 1 photo)");
+      return;
+    }
+    
+    if (images.length > 6) {
+      alert("Maximum 6 photos autorisées");
       return;
     }
     
@@ -842,7 +1079,7 @@
       }
     }
     
-    const propertyData = { type, category, title, price, address, description, imageLink };
+    const propertyData = { type, category, title, price, address, description, images };
     const success = await saveProperty(propertyData, customId || null);
     
     if (success) {
@@ -853,7 +1090,7 @@
       document.getElementById("adminPrice").value = "";
       document.getElementById("adminAddress").value = "";
       document.getElementById("adminDescription").value = "";
-      document.getElementById("adminImageLink").value = "";
+      updateImageInputs(['']);
       updateIdStatus();
       alert("Bien enregistré !");
     }
@@ -861,28 +1098,49 @@
   
   document.getElementById("adminId")?.addEventListener("input", updateIdStatus);
   
-  // Gestion de la modale admin
-  const adminModal = document.getElementById("adminModal");
-  const closeModal = document.querySelector(".close-modal");
-  
-  closeModal?.addEventListener("click", () => {
-    adminModal.style.display = "none";
-  });
-  
-  window.addEventListener("click", (e) => {
-    if (e.target === adminModal) {
-      adminModal.style.display = "none";
+  // Ajouter champ image
+  document.getElementById("addImageBtn")?.addEventListener("click", () => {
+    const currentRows = document.querySelectorAll('.image-input-row');
+    if (currentRows.length < 6) {
+      const container = document.getElementById('imageInputsContainer');
+      const row = document.createElement('div');
+      row.className = 'image-input-row';
+      row.innerHTML = `
+        <input type="text" class="img-link-input" placeholder="Lien image ${currentRows.length + 1}">
+        <button type="button" class="remove-img-btn">✕</button>
+      `;
+      container.appendChild(row);
+      row.querySelector('.remove-img-btn').addEventListener('click', () => row.remove());
+    } else {
+      alert("Maximum 6 photos");
     }
   });
   
-  // Écouteurs des filtres
-  document.querySelectorAll(".filter-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      filterProperties(btn.dataset.filter);
-    });
+  // Gestion modal admin
+  const adminModal = document.getElementById("adminModal");
+  const closeModal = document.querySelector(".close-modal");
+  
+  closeModal?.addEventListener("click", () => { adminModal.style.display = "none"; });
+  window.addEventListener("click", (e) => { if (e.target === adminModal) adminModal.style.display = "none"; });
+  
+  // Gestion galerie modal
+  const galleryModal = document.getElementById("galleryModal");
+  const closeGallery = document.querySelector(".close-gallery");
+  
+  closeGallery?.addEventListener("click", () => {
+    galleryModal.style.display = "none";
+  });
+  window.addEventListener("click", (e) => { 
+    if (e.target === galleryModal) galleryModal.style.display = "none"; 
   });
   
-  // Chargement initial
+  document.getElementById("galleryPrev")?.addEventListener("click", prevImage);
+  document.getElementById("galleryNext")?.addEventListener("click", nextImage);
+  
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => filterProperties(btn.dataset.filter));
+  });
+  
   loadProperties();
 </script>
 </body>
