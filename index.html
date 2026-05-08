@@ -933,7 +933,7 @@
   <div id="adminModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 id="adminTitle"><i class="fas fa-cog"></i> Administration des biens</h2>
+        <h2 id="adminModalTitle"><i class="fas fa-cog"></i> Administration des biens</h2>
         <span class="close-modal">&times;</span>
       </div>
 
@@ -952,7 +952,7 @@
           <option value="appartement">Appartement</option>
           <option value="terrain">Terrain</option>
         </select>
-        <input type="text" id="adminTitle" placeholder="Titre du bien" required>
+        <input type="text" id="adminTitleInput" placeholder="Titre du bien" required>
         <input type="text" id="adminPrice" placeholder="Prix" required>
         <input type="text" id="adminAddress" placeholder="Adresse / Localisation" required>
         <textarea id="adminDescription" rows="3" placeholder="Description détaillée..."></textarea>
@@ -1097,7 +1097,7 @@
       document.getElementById("filterAll").innerText = t.filterAll;
       document.getElementById("filterSale").innerText = t.filterSale;
       document.getElementById("filterRent").innerText = t.filterRent;
-      document.getElementById("adminTitle").innerHTML = '<i class="fas fa-cog"></i> ' + t.adminTitle;
+      document.getElementById("adminModalTitle").innerHTML = '<i class="fas fa-cog"></i> ' + t.adminTitle;
       document.getElementById("photosLabel").innerHTML = '<i class="fas fa-images"></i> ' + t.photosLabel;
       document.getElementById("addImageBtn").innerHTML = '<i class="fas fa-plus"></i> ' + t.addPhoto;
       document.getElementById("savePropertyBtn").innerHTML = '<i class="fas fa-save"></i> ' + t.saveBtn;
@@ -1257,7 +1257,7 @@
     function loadProperties() {
       const grid = document.getElementById("propertiesGrid");
       if (grid) grid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement...</div>';
-      propertiesRef.once("value", (snapshot) => {
+      return propertiesRef.once("value").then((snapshot) => {
         const properties = [];
         snapshot.forEach((childSnapshot) => {
           const property = childSnapshot.val();
@@ -1405,7 +1405,7 @@
     function renderAdminTable(properties) {
       const tbody = document.getElementById("adminTableBody");
       if (!tbody) return;
-      if (properties.length === 0) { tbody.innerHTML = "</td><td colspan='7'>Aucun bien</td></tr>"; return; }
+      if (properties.length === 0) { tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Aucun bien</td></tr>"; return; }
       let html = "";
       properties.forEach(prop => {
         html += `
@@ -1423,21 +1423,23 @@
       tbody.innerHTML = html;
     }
 
-    window.editProperty = function (id) {
+    function editProperty(id) {
       const prop = currentProperties.find(p => p.id === id);
       if (prop) {
         document.getElementById("adminId").value = prop.id;
         document.getElementById("adminType").value = prop.type;
         document.getElementById("adminCategory").value = prop.category || "villa";
-        document.getElementById("adminTitle").value = prop.title;
+        document.getElementById("adminTitleInput").value = prop.title;
         document.getElementById("adminPrice").value = prop.price;
         document.getElementById("adminAddress").value = prop.address;
         document.getElementById("adminDescription").value = prop.description || "";
         const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['']);
         updateImageInputs(images);
         updateIdStatus();
+        // Scroll to form
+        document.querySelector('.admin-form').scrollIntoView({ behavior: 'smooth' });
       }
-    };
+    }
 
     function escapeHtml(str) {
       if (!str) return "";
@@ -1465,32 +1467,43 @@
     window.openGallery = openGallery;
     window.deleteProperty = deleteProperty;
     window.editProperty = editProperty;
+    window.loadProperties = loadProperties;
 
     document.getElementById("savePropertyBtn")?.addEventListener("click", async () => {
+      const saveBtn = document.getElementById("savePropertyBtn");
       const customId = document.getElementById("adminId").value.trim();
       const type = document.getElementById("adminType").value;
       const category = document.getElementById("adminCategory").value;
-      const title = document.getElementById("adminTitle").value.trim();
+      const title = document.getElementById("adminTitleInput").value.trim();
       const price = document.getElementById("adminPrice").value.trim();
       const address = document.getElementById("adminAddress").value.trim();
       const description = document.getElementById("adminDescription").value.trim();
       const images = getImagesFromForm();
       if (!title || !price || !address || images.length === 0 || !images[0]) {
-        alert("Veuillez remplir tous les champs obligatoires");
+        alert("Veuillez remplir tous les champs obligatoires (Titre, Prix, Adresse, et au moins 1 photo)");
         return;
       }
       if (images.length > 6) { alert("Maximum 6 photos"); return; }
+      // Disable button during save
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Enregistrement...';
       const propertyData = { type, category, title, price, address, description, images };
       const success = await saveProperty(propertyData, customId || null);
+      // Re-enable button
+      const t = translations[currentLang];
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = '<i class="fas fa-save"></i> ' + t.saveBtn;
       if (success) {
         document.getElementById("adminId").value = "";
-        document.getElementById("adminTitle").value = "";
+        document.getElementById("adminTitleInput").value = "";
         document.getElementById("adminPrice").value = "";
         document.getElementById("adminAddress").value = "";
         document.getElementById("adminDescription").value = "";
+        document.getElementById("adminType").value = "vente";
+        document.getElementById("adminCategory").value = "villa";
         updateImageInputs(['']);
         updateIdStatus();
-        alert("Bien enregistré !");
+        alert("Bien enregistré avec succès !");
       }
     });
 
