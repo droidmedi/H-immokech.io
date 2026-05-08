@@ -1,38 +1,45 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Himmokech | Marrakech & Région</title>
-  
+
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Himmokech - Votre agence immobilière à Marrakech et région. Villas, appartements, maisons, terrains en vente et location.">
-  <meta name="keywords" content="immobilier Marrakech, vente villa Marrakech, location appartement Marrakech, terrain Marrakech">
+  <meta name="description"
+    content="Himmokech - Votre agence immobilière à Marrakech et région. Villas, appartements, maisons, terrains en vente et location.">
+  <meta name="keywords"
+    content="immobilier Marrakech, vente villa Marrakech, location appartement Marrakech, terrain Marrakech">
   <meta name="author" content="Himmokech">
-  
+
   <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="https://ik.imagekit.io/t7f24dkfq/himmobilier/3232%20barnavigateur.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="https://ik.imagekit.io/t7f24dkfq/himmobilier/3232%20barnavigateur.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://ik.imagekit.io/t7f24dkfq/himmobilier/3232%20barnavigateur.png">
-  
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="https://ik.imagekit.io/t7f24dkfq/himmobilier/3232%20barnavigateur.png">
+  <link rel="icon" type="image/png" sizes="16x16"
+    href="https://ik.imagekit.io/t7f24dkfq/himmobilier/3232%20barnavigateur.png">
+  <link rel="apple-touch-icon" sizes="180x180"
+    href="https://ik.imagekit.io/t7f24dkfq/himmobilier/3232%20barnavigateur.png">
+
   <!-- Open Graph / Social Media -->
   <meta property="og:title" content="H - Agence Immobilière Marrakech">
-  <meta property="og:description" content="Découvrez nos biens immobiliers à Marrakech et région. Vente et location de villas, appartements, maisons et terrains.">
+  <meta property="og:description"
+    content="Découvrez nos biens immobiliers à Marrakech et région. Vente et location de villas, appartements, maisons et terrains.">
   <meta property="og:image" content="https://ik.imagekit.io/t7f24dkfq/himmobilier/logoseogoogle112%20112.png">
   <meta property="og:type" content="website">
-  
+
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="H - Agence Immobilière Marrakech">
   <meta name="twitter:description" content="Découvrez nos biens immobiliers à Marrakech et région">
   <meta name="twitter:image" content="https://ik.imagekit.io/t7f24dkfq/himmobilier/logoseogoogle112%20112.png">
-  
+
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Firebase SDKs pour Realtime Database -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  
+
   <!-- Schema.org pour SEO -->
   <script type="application/ld+json">
   {
@@ -56,7 +63,7 @@
     }
   }
   </script>
-  
+
   <style>
     * {
       margin: 0;
@@ -80,7 +87,7 @@
     nav {
       background: rgba(255, 248, 235, 0.96);
       backdrop-filter: blur(8px);
-      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -101,11 +108,13 @@
       letter-spacing: -0.5px;
       color: #b45f2b;
     }
+
     .logo-img {
       height: 40px;
       width: auto;
       border-radius: 8px;
     }
+
     .logo span {
       color: #d68b45;
       font-weight: 400;
@@ -116,6 +125,7 @@
       gap: 1.8rem;
       flex-wrap: wrap;
     }
+
     .nav-links a {
       text-decoration: none;
       color: #3a2c21;
@@ -123,6 +133,7 @@
       transition: 0.2s;
       cursor: pointer;
     }
+
     .nav-links a:hover {
       color: #b45f2b;
       border-bottom: 2px solid #d68b45;
@@ -140,34 +151,84 @@
       gap: 8px;
       transition: 0.2s;
     }
+
     .btn-wa:hover {
       background-color: #128C7E;
       transform: scale(0.98);
     }
 
-    .lang-selector {
-      display: flex;
-      gap: 5px;
+    .lang-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .lang-dropbtn {
       background: #f0e4d4;
-      padding: 4px 8px;
-      border-radius: 40px;
-    }
-    .lang-btn {
-      background: none;
+      color: #b45f2b;
       border: none;
-      padding: 5px 10px;
-      border-radius: 30px;
+      padding: 8px 12px;
+      font-size: 1.2rem;
+      border-radius: 50%;
       cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
-      color: #6b5a4b;
+      transition: 0.3s;
     }
-    .lang-btn.active {
-      background: #b45f2b;
+
+    .lang-dropbtn:hover {
+      background: #e3b27e;
       color: white;
     }
-    .lang-btn:hover:not(.active) {
-      background: #d68b45;
+
+    .lang-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      min-width: 60px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      z-index: 1;
+      margin-top: 8px;
+      overflow: hidden;
+      animation: fadeInDown 0.2s ease;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .lang-dropdown-content.show {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lang-item {
+      background: none;
+      border: none;
+      color: #6b5a4b;
+      padding: 10px 15px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .lang-item:hover {
+      background-color: #fef0e0;
+      color: #b45f2b;
+    }
+
+    .lang-item.active {
+      background-color: #b45f2b;
       color: white;
     }
 
@@ -184,6 +245,7 @@
       color: #b45f2b;
       position: relative;
     }
+
     .section-title:after {
       content: '';
       display: block;
@@ -198,10 +260,11 @@
       padding: 0;
       position: relative;
       min-height: 85vh;
-      background: linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)), url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
     }
+
     .hero-content {
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       min-height: 85vh;
       display: flex;
       align-items: center;
@@ -209,24 +272,29 @@
       text-align: center;
       padding: 2rem;
     }
+
     .hero-text {
       color: white;
       max-width: 800px;
     }
+
     .hero-text h1 {
       font-size: 3rem;
       margin-bottom: 1rem;
-      text-shadow: 1px 1px 8px rgba(0,0,0,0.5);
+      text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
     }
+
     .hero-text h1 .region {
       font-size: 2rem;
       display: block;
       color: #f0c48d;
     }
+
     .hero-text p {
       font-size: 1.3rem;
       margin-bottom: 2rem;
     }
+
     .btn-reserve {
       background-color: #25D366;
       padding: 1rem 2.5rem;
@@ -240,6 +308,7 @@
       gap: 10px;
       transition: 0.2s;
     }
+
     .btn-reserve:hover {
       transform: scale(1.02);
     }
@@ -251,24 +320,28 @@
       gap: 2rem;
       margin-top: 3rem;
     }
+
     .arg-card {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255, 255, 255, 0.95);
       padding: 1.5rem 2rem;
       border-radius: 40px;
       text-align: center;
       width: 220px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(4px);
     }
+
     .arg-card i {
       font-size: 2.5rem;
       color: #d68b45;
       margin-bottom: 0.7rem;
     }
+
     .arg-card h3 {
       font-size: 1.4rem;
       color: #b45f2b;
     }
+
     .arg-card p {
       color: #6b5a4b;
     }
@@ -280,6 +353,7 @@
       gap: 1rem;
       margin-bottom: 2rem;
     }
+
     .filter-btn {
       background: white;
       border: 2px solid #e3b27e;
@@ -290,11 +364,13 @@
       transition: 0.2s;
       color: #b45f2b;
     }
+
     .filter-btn.active {
       background: #b45f2b;
       border-color: #b45f2b;
       color: white;
     }
+
     .filter-btn:hover {
       background: #d68b45;
       color: white;
@@ -306,43 +382,51 @@
       gap: 2rem;
       justify-content: center;
     }
+
     .property-card {
       background: white;
       border-radius: 28px;
       overflow: hidden;
       width: 340px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
       transition: transform 0.2s;
     }
+
     .property-card:hover {
       transform: translateY(-5px);
     }
+
     .property-card img {
       width: 100%;
       height: 220px;
       object-fit: cover;
       cursor: pointer;
     }
+
     .property-info {
       padding: 1.2rem;
     }
+
     .property-title {
       font-size: 1.3rem;
       font-weight: bold;
       margin-bottom: 0.3rem;
       color: #b45f2b;
     }
+
     .property-price {
       font-size: 1.5rem;
       font-weight: bold;
       color: #d68b45;
       margin: 0.5rem 0;
     }
+
     .property-address {
       color: #7f8c8d;
       font-size: 0.9rem;
       margin-bottom: 0.5rem;
     }
+
     .property-desc {
       color: #555;
       font-size: 0.9rem;
@@ -353,10 +437,12 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+
     .property-desc.expanded {
       display: block;
       overflow: visible;
     }
+
     .read-more-btn {
       background: none;
       border: none;
@@ -368,10 +454,12 @@
       padding: 0;
       display: inline-block;
     }
+
     .read-more-btn:hover {
       color: #b45f2b;
       text-decoration: underline;
     }
+
     .property-cat {
       display: inline-block;
       background: #fef0e0;
@@ -381,6 +469,7 @@
       margin-right: 0.5rem;
       color: #b45f2b;
     }
+
     .contact-btn {
       display: inline-flex;
       align-items: center;
@@ -405,9 +494,10 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(5px);
     }
+
     .modal-content {
       background: white;
       margin: 2% auto;
@@ -420,10 +510,19 @@
       position: relative;
       animation: modalSlide 0.3s ease;
     }
+
     @keyframes modalSlide {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
+
     .modal-header {
       display: flex;
       justify-content: space-between;
@@ -432,18 +531,22 @@
       padding-bottom: 1rem;
       border-bottom: 2px solid #e3b27e;
     }
+
     .modal-header h2 {
       color: #b45f2b;
     }
+
     .close-modal {
       font-size: 2rem;
       cursor: pointer;
       color: #999;
       transition: 0.2s;
     }
+
     .close-modal:hover {
       color: #e74c3c;
     }
+
     .admin-form {
       display: flex;
       flex-direction: column;
@@ -451,13 +554,17 @@
       margin-bottom: 2rem;
       max-width: 800px;
     }
-    .admin-form input, .admin-form select, .admin-form textarea {
+
+    .admin-form input,
+    .admin-form select,
+    .admin-form textarea {
       padding: 12px;
       border-radius: 28px;
       border: 1px solid #e2cfb5;
       background: #fefaf5;
       font-size: 1rem;
     }
+
     .admin-form button {
       background: #b45f2b;
       color: white;
@@ -468,35 +575,41 @@
       cursor: pointer;
       transition: 0.2s;
     }
+
     .admin-form button:hover {
       background: #d68b45;
     }
-    
+
     .images-group {
       border: 1px solid #e2cfb5;
       border-radius: 28px;
       padding: 1rem;
       background: #fefaf5;
     }
+
     .images-group label {
       font-weight: bold;
       display: block;
       margin-bottom: 0.5rem;
       color: #b45f2b;
     }
+
     .image-inputs {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
+
     .image-input-row {
       display: flex;
       gap: 0.5rem;
       align-items: center;
     }
+
     .image-input-row input {
       flex: 1;
     }
+
     .remove-img-btn {
       background: #e74c3c;
       color: white;
@@ -506,41 +619,49 @@
       border-radius: 50%;
       cursor: pointer;
     }
+
     .add-img-btn {
       background: #27ae60;
       margin-top: 0.5rem;
       padding: 0.5rem;
     }
-    
+
     .admin-list {
       overflow-x: auto;
       margin-top: 1rem;
     }
+
     .admin-list table {
       width: 100%;
       min-width: 800px;
       border-collapse: collapse;
     }
-    .admin-list th, .admin-list td {
+
+    .admin-list th,
+    .admin-list td {
       padding: 12px 10px;
       text-align: left;
       border-bottom: 1px solid #eee;
     }
+
     .admin-list th {
       background: #fef0e0;
       color: #b45f2b;
       position: sticky;
       top: 0;
     }
+
     .admin-list td {
       max-width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
     .admin-list td:first-child {
       font-weight: 500;
     }
+
     .admin-list button {
       background: #e74c3c;
       color: white;
@@ -550,9 +671,11 @@
       cursor: pointer;
       margin-right: 5px;
     }
+
     .admin-list .edit-btn {
       background: #3498db;
     }
+
     .free-id-badge {
       background: #27ae60;
       color: white;
@@ -561,6 +684,7 @@
       font-size: 0.7rem;
       margin-left: 8px;
     }
+
     .loading {
       text-align: center;
       padding: 2rem;
@@ -576,8 +700,9 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.95);
+      background-color: rgba(0, 0, 0, 0.95);
     }
+
     .gallery-modal-content {
       position: relative;
       width: 100%;
@@ -587,6 +712,7 @@
       justify-content: center;
       flex-direction: column;
     }
+
     .close-gallery {
       position: absolute;
       top: 20px;
@@ -597,11 +723,13 @@
       cursor: pointer;
       z-index: 2001;
     }
+
     .gallery-main-img {
       max-width: 90%;
       max-height: 80%;
       object-fit: contain;
     }
+
     .gallery-thumbnails {
       display: flex;
       gap: 10px;
@@ -610,6 +738,7 @@
       max-width: 90%;
       padding: 10px;
     }
+
     .gallery-thumbnails img {
       width: 80px;
       height: 60px;
@@ -619,15 +748,18 @@
       opacity: 0.6;
       transition: 0.2s;
     }
-    .gallery-thumbnails img:hover, .gallery-thumbnails img.active {
+
+    .gallery-thumbnails img:hover,
+    .gallery-thumbnails img.active {
       opacity: 1;
       border: 2px solid #d68b45;
     }
+
     .gallery-nav {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       color: white;
       font-size: 40px;
       padding: 10px 20px;
@@ -635,9 +767,18 @@
       border-radius: 50%;
       user-select: none;
     }
-    .gallery-prev { left: 20px; }
-    .gallery-next { right: 20px; }
-    .gallery-nav:hover { background: rgba(0,0,0,0.8); }
+
+    .gallery-prev {
+      left: 20px;
+    }
+
+    .gallery-next {
+      right: 20px;
+    }
+
+    .gallery-nav:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
 
     footer {
       text-align: center;
@@ -648,17 +789,20 @@
       cursor: pointer;
       transition: 0.2s;
     }
+
     footer:hover {
       background: #3a3530;
     }
+
     footer .copyright {
       display: inline-block;
       padding: 5px 10px;
       border-radius: 30px;
       transition: 0.2s;
     }
+
     footer .copyright:active {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     @media (max-width: 760px) {
@@ -666,526 +810,581 @@
         flex-direction: column;
         text-align: center;
       }
+
       .hero-text h1 {
         font-size: 2rem;
       }
+
       .hero-text h1 .region {
         font-size: 1.3rem;
       }
+
       section {
         padding: 2rem 1rem;
       }
+
       .modal-content {
         margin: 5% auto;
         width: 98%;
         padding: 1rem;
       }
+
       .admin-list td {
         white-space: normal;
         max-width: 150px;
       }
+
       .gallery-thumbnails img {
         width: 60px;
         height: 50px;
       }
+
       .gallery-nav {
         font-size: 30px;
         padding: 5px 12px;
       }
-      .lang-selector {
+
+      .lang-dropdown {
         order: 3;
       }
+
       .logo-img {
         height: 32px;
       }
+
       .logo {
         font-size: 1.3rem;
       }
     }
   </style>
 </head>
+
 <body>
 
-<nav>
-  <div class="logo">
-    <img src="https://ik.imagekit.io/t7f24dkfq/himmobilier/affichagesite%2040%2040.png" alt="H Logo" class="logo-img">
-    <span>Himmokech</span>
-  </div>
-  <div class="nav-links">
-    <a id="navHome" onclick="filterProperties('all')">Accueil</a>
-    <a id="navSale" onclick="filterProperties('vente')">Vente</a>
-    <a id="navRent" onclick="filterProperties('location')">Location</a>
-  </div>
-  <div style="display: flex; gap: 10px; align-items: center;">
-    <div class="lang-selector">
-      <button class="lang-btn active" data-lang="fr">FR</button>
-      <button class="lang-btn" data-lang="ar">AR</button>
-      <button class="lang-btn" data-lang="en">EN</button>
+  <nav>
+    <div class="logo">
+      <img src="https://ik.imagekit.io/t7f24dkfq/himmobilier/affichagesite%2040%2040.png" alt="H Logo" class="logo-img">
+      <span>Himmokech</span>
     </div>
-    <a id="contactBtn" href="https://wa.me/212667092729?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20biens" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> <span id="contactText">Contact</span></a>
-  </div>
-</nav>
-
-<!-- SECTION ACCUEIL HERO -->
-<section id="accueil" class="hero">
-  <div class="hero-content">
-    <div class="hero-text">
-      <h1 id="heroTitle">Votre bien immobilier de rêve<br><span class="region" id="heroRegion">à Marrakech et région</span></h1>
-      <p id="heroSubtitle" style="font-size: 1.1rem;">Route d'Ourika • Ghmat • Tamazouzte • Sidi Ghyat • et toute la région</p>
-      <p id="heroDesc">Villas, appartements, maisons, terrains | Vente & Location</p>
-      <a id="heroBtn" href="https://wa.me/212667092729?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20biens" class="btn-reserve" target="_blank"><i class="fab fa-whatsapp"></i> <span id="heroBtnText">Contactez-nous sur WhatsApp</span></a>
-      <div class="args-grid">
-        <div class="arg-card"><i class="fas fa-check-circle"></i><h3 id="arg1Title">Confiance</h3><p id="arg1Desc">Transaction sécurisée</p></div>
-        <div class="arg-card"><i class="fas fa-hand-holding-usd"></i><h3 id="arg2Title">Meilleurs prix</h3><p id="arg2Desc">Sans commission cachée</p></div>
-        <div class="arg-card"><i class="fas fa-headset"></i><h3 id="arg3Title">Support 24/7</h3><p id="arg3Desc">Réponse rapide WhatsApp</p></div>
+    <div class="nav-links">
+      <a id="navHome" onclick="filterProperties('all')">Accueil</a>
+      <a id="navSale" onclick="filterProperties('vente')">Vente</a>
+      <a id="navRent" onclick="filterProperties('location')">Location</a>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <a id="contactBtn"
+        href="https://wa.me/212667092729?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20biens"
+        class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> <span id="contactText">Contact</span></a>
+      <div class="lang-dropdown">
+        <button class="lang-dropbtn" id="langDropBtn"><i class="fas fa-globe"></i></button>
+        <div class="lang-dropdown-content" id="langDropdownContent">
+          <button class="lang-item active" data-lang="fr">FR</button>
+          <button class="lang-item" data-lang="ar">AR</button>
+          <button class="lang-item" data-lang="en">EN</button>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<section>
-  <h2 id="sectionPropertiesTitle" class="section-title">Nos biens immobiliers</h2>
-  <div class="filters">
-    <button class="filter-btn active" data-filter="all" id="filterAll">Tous</button>
-    <button class="filter-btn" data-filter="vente" id="filterSale">Vente</button>
-    <button class="filter-btn" data-filter="location" id="filterRent">Location</button>
-  </div>
-  <div id="propertiesGrid" class="properties-grid">
-    <div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement des biens...</div>
-  </div>
-</section>
-
-<!-- MODAL ADMIN -->
-<div id="adminModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 id="adminTitle"><i class="fas fa-cog"></i> Administration des biens</h2>
-      <span class="close-modal">&times;</span>
-    </div>
-    
-    <div class="admin-form">
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <input type="text" id="adminId" placeholder="ID du bien (laissez vide pour nouveau)" style="flex:2">
-        <span id="idStatus" style="font-size:0.8rem;"></span>
-      </div>
-      <select id="adminType">
-        <option value="vente">Vente</option>
-        <option value="location">Location</option>
-      </select>
-      <select id="adminCategory">
-        <option value="villa">Villa</option>
-        <option value="maison">Maison</option>
-        <option value="appartement">Appartement</option>
-        <option value="terrain">Terrain</option>
-      </select>
-      <input type="text" id="adminTitle" placeholder="Titre du bien" required>
-      <input type="text" id="adminPrice" placeholder="Prix" required>
-      <input type="text" id="adminAddress" placeholder="Adresse / Localisation" required>
-      <textarea id="adminDescription" rows="3" placeholder="Description détaillée..."></textarea>
-      
-      <div class="images-group">
-        <label id="photosLabel"><i class="fas fa-images"></i> Photos du bien (max 6, min 1)</label>
-        <div id="imageInputsContainer" class="image-inputs">
-          <div class="image-input-row">
-            <input type="text" class="img-link-input" placeholder="Lien image 1 (obligatoire)">
-            <button type="button" class="remove-img-btn" disabled>✕</button>
+  <!-- SECTION ACCUEIL HERO -->
+  <section id="accueil" class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 id="heroTitle">Votre bien immobilier de rêve<br><span class="region" id="heroRegion">à Marrakech et
+            région</span></h1>
+        <p id="heroSubtitle" style="font-size: 1.1rem;">Route d'Ourika • Ghmat • Tamazouzte • Sidi Ghyat • et toute la
+          région</p>
+        <p id="heroDesc">Villas, appartements, maisons, terrains | Vente & Location</p>
+        <a id="heroBtn"
+          href="https://wa.me/212667092729?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20biens"
+          class="btn-reserve" target="_blank"><i class="fab fa-whatsapp"></i> <span id="heroBtnText">Contactez-nous sur
+            WhatsApp</span></a>
+        <div class="args-grid">
+          <div class="arg-card"><i class="fas fa-check-circle"></i>
+            <h3 id="arg1Title">Confiance</h3>
+            <p id="arg1Desc">Transaction sécurisée</p>
+          </div>
+          <div class="arg-card"><i class="fas fa-hand-holding-usd"></i>
+            <h3 id="arg2Title">Meilleurs prix</h3>
+            <p id="arg2Desc">Sans commission cachée</p>
+          </div>
+          <div class="arg-card"><i class="fas fa-headset"></i>
+            <h3 id="arg3Title">Support 24/7</h3>
+            <p id="arg3Desc">Réponse rapide WhatsApp</p>
           </div>
         </div>
-        <button type="button" id="addImageBtn" class="add-img-btn"><i class="fas fa-plus"></i> Ajouter une photo</button>
       </div>
-      
-      <button id="savePropertyBtn"><i class="fas fa-save"></i> Enregistrer</button>
     </div>
-    
-    <h3 id="propertiesListTitle">Liste des biens</h3>
-    <div class="admin-list">
-      <table id="adminTable">
-        <thead>
-          <tr><th>ID</th><th>Type</th><th>Catégorie</th><th>Titre</th><th>Prix</th><th>Adresse</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="adminTableBody"></tbody>
-      </table>
+  </section>
+
+  <section>
+    <h2 id="sectionPropertiesTitle" class="section-title">Nos biens immobiliers</h2>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all" id="filterAll">Tous</button>
+      <button class="filter-btn" data-filter="vente" id="filterSale">Vente</button>
+      <button class="filter-btn" data-filter="location" id="filterRent">Location</button>
+    </div>
+    <div id="propertiesGrid" class="properties-grid">
+      <div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement des biens...</div>
+    </div>
+  </section>
+
+  <!-- MODAL ADMIN -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="adminTitle"><i class="fas fa-cog"></i> Administration des biens</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+
+      <div class="admin-form">
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="text" id="adminId" placeholder="ID du bien (laissez vide pour nouveau)" style="flex:2">
+          <span id="idStatus" style="font-size:0.8rem;"></span>
+        </div>
+        <select id="adminType">
+          <option value="vente">Vente</option>
+          <option value="location">Location</option>
+        </select>
+        <select id="adminCategory">
+          <option value="villa">Villa</option>
+          <option value="maison">Maison</option>
+          <option value="appartement">Appartement</option>
+          <option value="terrain">Terrain</option>
+        </select>
+        <input type="text" id="adminTitle" placeholder="Titre du bien" required>
+        <input type="text" id="adminPrice" placeholder="Prix" required>
+        <input type="text" id="adminAddress" placeholder="Adresse / Localisation" required>
+        <textarea id="adminDescription" rows="3" placeholder="Description détaillée..."></textarea>
+
+        <div class="images-group">
+          <label id="photosLabel"><i class="fas fa-images"></i> Photos du bien (max 6, min 1)</label>
+          <div id="imageInputsContainer" class="image-inputs">
+            <div class="image-input-row">
+              <input type="text" class="img-link-input" placeholder="Lien image 1 (obligatoire)">
+              <button type="button" class="remove-img-btn" disabled>✕</button>
+            </div>
+          </div>
+          <button type="button" id="addImageBtn" class="add-img-btn"><i class="fas fa-plus"></i> Ajouter une
+            photo</button>
+        </div>
+
+        <button id="savePropertyBtn"><i class="fas fa-save"></i> Enregistrer</button>
+      </div>
+
+      <h3 id="propertiesListTitle">Liste des biens</h3>
+      <div class="admin-list">
+        <table id="adminTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Catégorie</th>
+              <th>Titre</th>
+              <th>Prix</th>
+              <th>Adresse</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Galerie Modale -->
-<div id="galleryModal" class="gallery-modal">
-  <span class="close-gallery">&times;</span>
-  <div class="gallery-modal-content">
-    <div class="gallery-nav gallery-prev" id="galleryPrev">&#10094;</div>
-    <img id="galleryMainImg" class="gallery-main-img" src="" alt="Photo">
-    <div class="gallery-nav gallery-next" id="galleryNext">&#10095;</div>
-    <div id="galleryThumbnails" class="gallery-thumbnails"></div>
+  <!-- Galerie Modale -->
+  <div id="galleryModal" class="gallery-modal">
+    <span class="close-gallery">&times;</span>
+    <div class="gallery-modal-content">
+      <div class="gallery-nav gallery-prev" id="galleryPrev">&#10094;</div>
+      <img id="galleryMainImg" class="gallery-main-img" src="" alt="Photo">
+      <div class="gallery-nav gallery-next" id="galleryNext">&#10095;</div>
+      <div id="galleryThumbnails" class="gallery-thumbnails"></div>
+    </div>
   </div>
-</div>
 
-<footer id="footer">
-  <p><span class="copyright" id="copyrightSymbol">©</span> <span id="footerText">2025 Himmokech - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</span></p>
-</footer>
+  <footer id="footer">
+    <p><span class="copyright" id="copyrightSymbol">©</span> <span id="footerText">2025 Himmokech - Agence immobilière
+        en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</span></p>
+  </footer>
 
-<script>
-  // --- TRADUCTIONS ---
-  const translations = {
-    fr: {
-      navHome: "Accueil", navSale: "Vente", navRent: "Location", contactText: "Contact",
-      heroTitle: "Votre bien immobilier de rêve", heroRegion: "à Marrakech et région",
-      heroSubtitle: "Route d'Ourika • Ghmat • Tamazouzte • Sidi Ghyat • et toute la région",
-      heroDesc: "Villas, appartements, maisons, terrains | Vente & Location",
-      heroBtnText: "Contactez-nous sur WhatsApp",
-      arg1Title: "Confiance", arg1Desc: "Transaction sécurisée",
-      arg2Title: "Meilleurs prix", arg2Desc: "Sans commission cachée",
-      arg3Title: "Support 24/7", arg3Desc: "Réponse rapide WhatsApp",
-      sectionPropertiesTitle: "Nos biens immobiliers",
-      filterAll: "Tous", filterSale: "Vente", filterRent: "Location",
-      adminTitle: "Administration des biens", photosLabel: "Photos du bien (max 6, min 1)",
-      addPhoto: "Ajouter une photo", saveBtn: "Enregistrer", propertiesListTitle: "Liste des biens",
-      footerText: "2025 Himmokech - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29",
-      contactWaMessage: "Bonjour, je souhaite des informations sur vos biens",
-      propertyTypes: { villa: "Villa", maison: "Maison", appartement: "Appartement", terrain: "Terrain" },
-      saleLabel: "Vente", rentLabel: "Location", contactAgent: "Contacter",
-      readMore: "Afficher plus",
-      readLess: "Afficher moins"
-    },
-    ar: {
-      navHome: "الرئيسية", navSale: "بيع", navRent: "إيجار", contactText: "اتصل بنا",
-      heroTitle: "عقار أحلامك", heroRegion: "في مراكش والمنطقة",
-      heroSubtitle: "طريق أوريكة • غمات • تمزوزت • سيدي غيات • والمنطقة بأكملها",
-      heroDesc: "فلل، شقق، منازل، أراضي | بيع وإيجار",
-      heroBtnText: "اتصل بنا على واتساب",
-      arg1Title: "ثقة", arg1Desc: "معاملات آمنة",
-      arg2Title: "أفضل الأسعار", arg2Desc: "بدون عمولات خفية",
-      arg3Title: "دعم 24/7", arg3Desc: "رد سريع عبر واتساب",
-      sectionPropertiesTitle: "عقاراتنا",
-      filterAll: "الكل", filterSale: "بيع", filterRent: "إيجار",
-      adminTitle: "إدارة العقارات", photosLabel: "صور العقار (6 كحد أقصى، 1 كحد أدنى)",
-      addPhoto: "إضافة صورة", saveBtn: "حفظ", propertiesListTitle: "قائمة العقارات",
-      footerText: "2025 Himmokech - وكالة عقارية عبر الإنترنت | مراكش والمنطقة | اتصل بنا واتساب: 06 67 09 27 29",
-      contactWaMessage: "مرحباً، أرغب في الحصول على معلومات حول عقاراتكم",
-      propertyTypes: { villa: "فيلا", maison: "منزل", appartement: "شقة", terrain: "أرض" },
-      saleLabel: "بيع", rentLabel: "إيجار", contactAgent: "اتصل بالوكيل",
-      readMore: "المزيد",
-      readLess: "أقل"
-    },
-    en: {
-      navHome: "Home", navSale: "Sale", navRent: "Rent", contactText: "Contact",
-      heroTitle: "Your dream property", heroRegion: "in Marrakech and region",
-      heroSubtitle: "Ourika Road • Ghmat • Tamazouzte • Sidi Ghyat • and the whole region",
-      heroDesc: "Villas, apartments, houses, lands | Sale & Rent",
-      heroBtnText: "Contact us on WhatsApp",
-      arg1Title: "Trust", arg1Desc: "Secure transactions",
-      arg2Title: "Best prices", arg2Desc: "No hidden fees",
-      arg3Title: "24/7 Support", arg3Desc: "Fast WhatsApp response",
-      sectionPropertiesTitle: "Our Properties",
-      filterAll: "All", filterSale: "Sale", filterRent: "Rent",
-      adminTitle: "Property Management", photosLabel: "Property photos (max 6, min 1)",
-      addPhoto: "Add photo", saveBtn: "Save", propertiesListTitle: "Properties List",
-      footerText: "2025 Himmokech - Online Real Estate Agency | Marrakech and region | WhatsApp: 06 67 09 27 29",
-      contactWaMessage: "Hello, I would like information about your properties",
-      propertyTypes: { villa: "Villa", maison: "House", appartement: "Apartment", terrain: "Land" },
-      saleLabel: "Sale", rentLabel: "Rent", contactAgent: "Contact Agent",
-      readMore: "Read more",
-      readLess: "Read less"
-    }
-  };
-
-  let currentLang = "fr";
-
-  function updateLanguage(lang) {
-    currentLang = lang;
-    const t = translations[lang];
-    
-    document.getElementById("navHome").innerText = t.navHome;
-    document.getElementById("navSale").innerText = t.navSale;
-    document.getElementById("navRent").innerText = t.navRent;
-    document.getElementById("contactText").innerText = t.contactText;
-    document.getElementById("heroTitle").innerHTML = t.heroTitle + '<br><span class="region" id="heroRegion">' + t.heroRegion + '</span>';
-    document.getElementById("heroSubtitle").innerText = t.heroSubtitle;
-    document.getElementById("heroDesc").innerText = t.heroDesc;
-    document.getElementById("heroBtnText").innerText = t.heroBtnText;
-    document.getElementById("arg1Title").innerText = t.arg1Title;
-    document.getElementById("arg1Desc").innerText = t.arg1Desc;
-    document.getElementById("arg2Title").innerText = t.arg2Title;
-    document.getElementById("arg2Desc").innerText = t.arg2Desc;
-    document.getElementById("arg3Title").innerText = t.arg3Title;
-    document.getElementById("arg3Desc").innerText = t.arg3Desc;
-    document.getElementById("sectionPropertiesTitle").innerText = t.sectionPropertiesTitle;
-    document.getElementById("filterAll").innerText = t.filterAll;
-    document.getElementById("filterSale").innerText = t.filterSale;
-    document.getElementById("filterRent").innerText = t.filterRent;
-    document.getElementById("adminTitle").innerHTML = '<i class="fas fa-cog"></i> ' + t.adminTitle;
-    document.getElementById("photosLabel").innerHTML = '<i class="fas fa-images"></i> ' + t.photosLabel;
-    document.getElementById("addImageBtn").innerHTML = '<i class="fas fa-plus"></i> ' + t.addPhoto;
-    document.getElementById("savePropertyBtn").innerHTML = '<i class="fas fa-save"></i> ' + t.saveBtn;
-    document.getElementById("propertiesListTitle").innerText = t.propertiesListTitle;
-    document.getElementById("footerText").innerText = t.footerText;
-    
-    // Mettre à jour le lien WhatsApp
-    const waLink = document.getElementById("contactBtn");
-    waLink.href = `https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage)}`;
-    const heroWaLink = document.getElementById("heroBtn");
-    heroWaLink.href = `https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage)}`;
-    
-    // Mettre à jour l'affichage des biens
-    if (currentProperties.length > 0) {
-      renderProperties(currentProperties);
-    }
-    
-    // Direction RTL pour arabe
-    if (lang === "ar") {
-      document.body.classList.add("rtl");
-      document.querySelector(".lang-selector").style.direction = "ltr";
-    } else {
-      document.body.classList.remove("rtl");
-    }
-    
-    // Mettre à jour les boutons de langue actifs
-    document.querySelectorAll(".lang-btn").forEach(btn => {
-      if (btn.dataset.lang === lang) btn.classList.add("active");
-      else btn.classList.remove("active");
-    });
-  }
-
-  // Fonction pour basculer l'affichage de la description
-  window.toggleDescription = function(elementId, btnElement) {
-    const descElement = document.getElementById(elementId);
-    if (descElement) {
-      descElement.classList.toggle('expanded');
-      const t = translations[currentLang];
-      if (descElement.classList.contains('expanded')) {
-        btnElement.textContent = t.readLess;
-        // Supprimer les restrictions CSS
-        descElement.style.display = 'block';
-        descElement.style.webkitLineClamp = 'unset';
-      } else {
-        btnElement.textContent = t.readMore;
-        // Remettre les restrictions CSS
-        descElement.style.display = '-webkit-box';
-        descElement.style.webkitLineClamp = '3';
-        descElement.style.webkitBoxOrient = 'vertical';
-        descElement.style.overflow = 'hidden';
+  <script>
+    // --- TRADUCTIONS ---
+    const translations = {
+      fr: {
+        navHome: "Accueil", navSale: "Vente", navRent: "Location", contactText: "Contact",
+        heroTitle: "Votre bien immobilier de rêve", heroRegion: "à Marrakech et région",
+        heroSubtitle: "Route d'Ourika • Ghmat • Tamazouzte • Sidi Ghyat • et toute la région",
+        heroDesc: "Villas, appartements, maisons, terrains | Vente & Location",
+        heroBtnText: "Contactez-nous sur WhatsApp",
+        arg1Title: "Confiance", arg1Desc: "Transaction sécurisée",
+        arg2Title: "Meilleurs prix", arg2Desc: "Sans commission cachée",
+        arg3Title: "Support 24/7", arg3Desc: "Réponse rapide WhatsApp",
+        sectionPropertiesTitle: "Nos biens immobiliers",
+        filterAll: "Tous", filterSale: "Vente", filterRent: "Location",
+        adminTitle: "Administration des biens", photosLabel: "Photos du bien (max 6, min 1)",
+        addPhoto: "Ajouter une photo", saveBtn: "Enregistrer", propertiesListTitle: "Liste des biens",
+        footerText: "2025 Himmokech - Agence immobilière en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29",
+        contactWaMessage: "Bonjour, je souhaite des informations sur vos biens",
+        propertyTypes: { villa: "Villa", maison: "Maison", appartement: "Appartement", terrain: "Terrain" },
+        saleLabel: "Vente", rentLabel: "Location", contactAgent: "Contacter",
+        readMore: "Afficher plus",
+        readLess: "Afficher moins"
+      },
+      ar: {
+        navHome: "الرئيسية", navSale: "بيع", navRent: "إيجار", contactText: "اتصل بنا",
+        heroTitle: "عقار أحلامك", heroRegion: "في مراكش والمنطقة",
+        heroSubtitle: "طريق أوريكة • غمات • تمزوزت • سيدي غيات • والمنطقة بأكملها",
+        heroDesc: "فلل، شقق، منازل، أراضي | بيع وإيجار",
+        heroBtnText: "اتصل بنا على واتساب",
+        arg1Title: "ثقة", arg1Desc: "معاملات آمنة",
+        arg2Title: "أفضل الأسعار", arg2Desc: "بدون عمولات خفية",
+        arg3Title: "دعم 24/7", arg3Desc: "رد سريع عبر واتساب",
+        sectionPropertiesTitle: "عقاراتنا",
+        filterAll: "الكل", filterSale: "بيع", filterRent: "إيجار",
+        adminTitle: "إدارة العقارات", photosLabel: "صور العقار (6 كحد أقصى، 1 كحد أدنى)",
+        addPhoto: "إضافة صورة", saveBtn: "حفظ", propertiesListTitle: "قائمة العقارات",
+        footerText: "2025 Himmokech - وكالة عقارية عبر الإنترنت | مراكش والمنطقة | اتصل بنا واتساب: 06 67 09 27 29",
+        contactWaMessage: "مرحباً، أرغب في الحصول على معلومات حول عقاراتكم",
+        propertyTypes: { villa: "فيلا", maison: "منزل", appartement: "شقة", terrain: "أرض" },
+        saleLabel: "بيع", rentLabel: "إيجار", contactAgent: "اتصل بالوكيل",
+        readMore: "المزيد",
+        readLess: "أقل"
+      },
+      en: {
+        navHome: "Home", navSale: "Sale", navRent: "Rent", contactText: "Contact",
+        heroTitle: "Your dream property", heroRegion: "in Marrakech and region",
+        heroSubtitle: "Ourika Road • Ghmat • Tamazouzte • Sidi Ghyat • and the whole region",
+        heroDesc: "Villas, apartments, houses, lands | Sale & Rent",
+        heroBtnText: "Contact us on WhatsApp",
+        arg1Title: "Trust", arg1Desc: "Secure transactions",
+        arg2Title: "Best prices", arg2Desc: "No hidden fees",
+        arg3Title: "24/7 Support", arg3Desc: "Fast WhatsApp response",
+        sectionPropertiesTitle: "Our Properties",
+        filterAll: "All", filterSale: "Sale", filterRent: "Rent",
+        adminTitle: "Property Management", photosLabel: "Property photos (max 6, min 1)",
+        addPhoto: "Add photo", saveBtn: "Save", propertiesListTitle: "Properties List",
+        footerText: "2025 Himmokech - Online Real Estate Agency | Marrakech and region | WhatsApp: 06 67 09 27 29",
+        contactWaMessage: "Hello, I would like information about your properties",
+        propertyTypes: { villa: "Villa", maison: "House", appartement: "Apartment", terrain: "Land" },
+        saleLabel: "Sale", rentLabel: "Rent", contactAgent: "Contact Agent",
+        readMore: "Read more",
+        readLess: "Read less"
       }
+    };
+
+    let currentLang = "fr";
+
+    function updateLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+
+      document.getElementById("navHome").innerText = t.navHome;
+      document.getElementById("navSale").innerText = t.navSale;
+      document.getElementById("navRent").innerText = t.navRent;
+      document.getElementById("contactText").innerText = t.contactText;
+      document.getElementById("heroTitle").innerHTML = t.heroTitle + '<br><span class="region" id="heroRegion">' + t.heroRegion + '</span>';
+      document.getElementById("heroSubtitle").innerText = t.heroSubtitle;
+      document.getElementById("heroDesc").innerText = t.heroDesc;
+      document.getElementById("heroBtnText").innerText = t.heroBtnText;
+      document.getElementById("arg1Title").innerText = t.arg1Title;
+      document.getElementById("arg1Desc").innerText = t.arg1Desc;
+      document.getElementById("arg2Title").innerText = t.arg2Title;
+      document.getElementById("arg2Desc").innerText = t.arg2Desc;
+      document.getElementById("arg3Title").innerText = t.arg3Title;
+      document.getElementById("arg3Desc").innerText = t.arg3Desc;
+      document.getElementById("sectionPropertiesTitle").innerText = t.sectionPropertiesTitle;
+      document.getElementById("filterAll").innerText = t.filterAll;
+      document.getElementById("filterSale").innerText = t.filterSale;
+      document.getElementById("filterRent").innerText = t.filterRent;
+      document.getElementById("adminTitle").innerHTML = '<i class="fas fa-cog"></i> ' + t.adminTitle;
+      document.getElementById("photosLabel").innerHTML = '<i class="fas fa-images"></i> ' + t.photosLabel;
+      document.getElementById("addImageBtn").innerHTML = '<i class="fas fa-plus"></i> ' + t.addPhoto;
+      document.getElementById("savePropertyBtn").innerHTML = '<i class="fas fa-save"></i> ' + t.saveBtn;
+      document.getElementById("propertiesListTitle").innerText = t.propertiesListTitle;
+      document.getElementById("footerText").innerText = t.footerText;
+
+      // Mettre à jour le lien WhatsApp
+      const waLink = document.getElementById("contactBtn");
+      waLink.href = `https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage)}`;
+      const heroWaLink = document.getElementById("heroBtn");
+      heroWaLink.href = `https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage)}`;
+
+      // Mettre à jour l'affichage des biens
+      if (currentProperties.length > 0) {
+        renderProperties(currentProperties);
+      }
+
+      // Direction RTL pour arabe
+      if (lang === "ar") {
+        document.body.classList.add("rtl");
+        document.querySelector(".lang-dropdown").style.direction = "ltr";
+      } else {
+        document.body.classList.remove("rtl");
+      }
+
+      // Mettre à jour les boutons de langue actifs
+      document.querySelectorAll(".lang-item").forEach(btn => {
+        if (btn.dataset.lang === lang) btn.classList.add("active");
+        else btn.classList.remove("active");
+      });
     }
-  };
 
-  // Écouteurs des boutons de langue
-  document.querySelectorAll(".lang-btn").forEach(btn => {
-    btn.addEventListener("click", () => updateLanguage(btn.dataset.lang));
-  });
+    // Fonction pour basculer l'affichage de la description
+    window.toggleDescription = function (elementId, btnElement) {
+      const descElement = document.getElementById(elementId);
+      if (descElement) {
+        descElement.classList.toggle('expanded');
+        const t = translations[currentLang];
+        if (descElement.classList.contains('expanded')) {
+          btnElement.textContent = t.readLess;
+          // Supprimer les restrictions CSS
+          descElement.style.display = 'block';
+          descElement.style.webkitLineClamp = 'unset';
+        } else {
+          btnElement.textContent = t.readMore;
+          // Remettre les restrictions CSS
+          descElement.style.display = '-webkit-box';
+          descElement.style.webkitLineClamp = '3';
+          descElement.style.webkitBoxOrient = 'vertical';
+          descElement.style.overflow = 'hidden';
+        }
+      }
+    };
 
-  // Configuration Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyAYVktQ9s9EIOmI-Y5mhTrnReOkeCArPFk",
-    authDomain: "hicham-immobilier.firebaseapp.com",
-    databaseURL: "https://hicham-immobilier-default-rtdb.firebaseio.com",
-    projectId: "hicham-immobilier",
-    storageBucket: "hicham-immobilier.firebasestorage.app",
-    messagingSenderId: "794506698175",
-    appId: "1:794506698175:web:f123bf2f04cece9780150a",
-    measurementId: "G-SJ8BZQ9QF0"
-  };
+    // Écouteurs des boutons de langue
+    document.querySelectorAll(".lang-item").forEach(btn => {
+      btn.addEventListener("click", () => {
+        updateLanguage(btn.dataset.lang);
+        document.getElementById("langDropdownContent").classList.remove("show");
+      });
+    });
 
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-  const propertiesRef = database.ref("properties");
-  
-  let currentProperties = [];
-  let availableIds = [];
-  
-  // Variables pour la galerie
-  let currentGalleryImages = [];
-  let currentGalleryIndex = 0;
-  
-  function updateImageInputs(images = ['']) {
-    const container = document.getElementById('imageInputsContainer');
-    if (!container) return;
-    container.innerHTML = '';
-    images.forEach((img, index) => {
-      const row = document.createElement('div');
-      row.className = 'image-input-row';
-      row.innerHTML = `
+    // Menu déroulant des langues
+    document.getElementById("langDropBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.getElementById("langDropdownContent").classList.toggle("show");
+    });
+    window.addEventListener("click", () => {
+      const dropdown = document.getElementById("langDropdownContent");
+      if (dropdown && dropdown.classList.contains("show")) {
+        dropdown.classList.remove("show");
+      }
+    });
+
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAYVktQ9s9EIOmI-Y5mhTrnReOkeCArPFk",
+      authDomain: "hicham-immobilier.firebaseapp.com",
+      databaseURL: "https://hicham-immobilier-default-rtdb.firebaseio.com",
+      projectId: "hicham-immobilier",
+      storageBucket: "hicham-immobilier.firebasestorage.app",
+      messagingSenderId: "794506698175",
+      appId: "1:794506698175:web:f123bf2f04cece9780150a",
+      measurementId: "G-SJ8BZQ9QF0"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const propertiesRef = database.ref("properties");
+
+    let currentProperties = [];
+    let availableIds = [];
+
+    // Variables pour la galerie
+    let currentGalleryImages = [];
+    let currentGalleryIndex = 0;
+
+    function updateImageInputs(images = ['']) {
+      const container = document.getElementById('imageInputsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      images.forEach((img, index) => {
+        const row = document.createElement('div');
+        row.className = 'image-input-row';
+        row.innerHTML = `
         <input type="text" class="img-link-input" placeholder="Lien image ${index + 1}" value="${escapeHtml(img || '')}">
         <button type="button" class="remove-img-btn" ${images.length <= 1 ? 'disabled' : ''}>✕</button>
       `;
-      container.appendChild(row);
-    });
-    document.querySelectorAll('.remove-img-btn').forEach((btn, idx) => {
-      btn.addEventListener('click', () => {
-        const currentRows = document.querySelectorAll('.image-input-row');
-        if (currentRows.length > 1) currentRows[idx].remove();
+        container.appendChild(row);
       });
-    });
-  }
-  
-  function getImagesFromForm() {
-    const inputs = document.querySelectorAll('.img-link-input');
-    const images = [];
-    inputs.forEach(input => {
-      const val = input.value.trim();
-      if (val) images.push(val);
-    });
-    return images.length > 0 ? images : [''];
-  }
-  
-  // Admin access: 3 clics sur ©
-  let clickCount = 0;
-  let clickTimer = null;
-  const copyrightElement = document.getElementById("copyrightSymbol");
-  
-  function resetClickCount() {
-    clickCount = 0;
-    if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; }
-  }
-  
-  copyrightElement?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    clickCount++;
-    copyrightElement.style.transform = "scale(1.1)";
-    setTimeout(() => { copyrightElement.style.transform = "scale(1)"; }, 200);
-    if (clickTimer) clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => resetClickCount(), 1000);
-    if (clickCount === 3) {
-      resetClickCount();
-      const pwd = prompt(translations[currentLang]?.adminPassword || "Accès administrateur - Entrez le mot de passe:");
-      if (pwd === "admin123") {
-        document.getElementById("adminModal").style.display = "block";
-        loadProperties();
-        updateIdStatus();
-      } else if (pwd !== null) alert("Mot de passe incorrect");
-    }
-  });
-  
-  function loadProperties() {
-    const grid = document.getElementById("propertiesGrid");
-    if (grid) grid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement...</div>';
-    propertiesRef.once("value", (snapshot) => {
-      const properties = [];
-      snapshot.forEach((childSnapshot) => {
-        const property = childSnapshot.val();
-        property.id = childSnapshot.key;
-        properties.push(property);
+      document.querySelectorAll('.remove-img-btn').forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+          const currentRows = document.querySelectorAll('.image-input-row');
+          if (currentRows.length > 1) currentRows[idx].remove();
+        });
       });
-      currentProperties = properties;
-      renderProperties(currentProperties);
-      renderAdminTable(currentProperties);
-    }).catch((error) => {
-      console.error("Erreur chargement:", error);
-      document.getElementById("propertiesGrid").innerHTML = '<div style="text-align:center; color:red;">Erreur de chargement</div>';
-    });
-  }
-  
-  async function saveProperty(propertyData, customId = null) {
-    let finalId = customId;
-    if (!finalId) {
-      finalId = availableIds.length > 0 ? availableIds.shift() : Date.now().toString();
     }
-    const updates = {};
-    updates[`/properties/${finalId}`] = {
-      type: propertyData.type, category: propertyData.category, title: propertyData.title,
-      price: propertyData.price, address: propertyData.address, description: propertyData.description,
-      images: propertyData.images, updatedAt: new Date().toISOString()
-    };
-    try {
-      await database.ref().update(updates);
-      await loadProperties();
-      return true;
-    } catch(error) { alert("Erreur lors de l'enregistrement"); return false; }
-  }
-  
-  async function deleteProperty(id) {
-    if (confirm("Supprimer ce bien ? L'ID sera réutilisable.")) {
+
+    function getImagesFromForm() {
+      const inputs = document.querySelectorAll('.img-link-input');
+      const images = [];
+      inputs.forEach(input => {
+        const val = input.value.trim();
+        if (val) images.push(val);
+      });
+      return images.length > 0 ? images : [''];
+    }
+
+    // Admin access: 3 clics sur ©
+    let clickCount = 0;
+    let clickTimer = null;
+    const copyrightElement = document.getElementById("copyrightSymbol");
+
+    function resetClickCount() {
+      clickCount = 0;
+      if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; }
+    }
+
+    copyrightElement?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      clickCount++;
+      copyrightElement.style.transform = "scale(1.1)";
+      setTimeout(() => { copyrightElement.style.transform = "scale(1)"; }, 200);
+      if (clickTimer) clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => resetClickCount(), 1000);
+      if (clickCount === 3) {
+        resetClickCount();
+        const pwd = prompt(translations[currentLang]?.adminPassword || "Accès administrateur - Entrez le mot de passe:");
+        if (pwd === "admin123") {
+          document.getElementById("adminModal").style.display = "block";
+          loadProperties();
+          updateIdStatus();
+        } else if (pwd !== null) alert("Mot de passe incorrect");
+      }
+    });
+
+    function loadProperties() {
+      const grid = document.getElementById("propertiesGrid");
+      if (grid) grid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-pulse"></i> Chargement...</div>';
+      propertiesRef.once("value", (snapshot) => {
+        const properties = [];
+        snapshot.forEach((childSnapshot) => {
+          const property = childSnapshot.val();
+          property.id = childSnapshot.key;
+          properties.push(property);
+        });
+        currentProperties = properties;
+        renderProperties(currentProperties);
+        renderAdminTable(currentProperties);
+      }).catch((error) => {
+        console.error("Erreur chargement:", error);
+        document.getElementById("propertiesGrid").innerHTML = '<div style="text-align:center; color:red;">Erreur de chargement</div>';
+      });
+    }
+
+    async function saveProperty(propertyData, customId = null) {
+      let finalId = customId;
+      if (!finalId) {
+        finalId = availableIds.length > 0 ? availableIds.shift() : Date.now().toString();
+      }
+      const updates = {};
+      updates[`/properties/${finalId}`] = {
+        type: propertyData.type, category: propertyData.category, title: propertyData.title,
+        price: propertyData.price, address: propertyData.address, description: propertyData.description,
+        images: propertyData.images, updatedAt: new Date().toISOString()
+      };
       try {
-        await database.ref(`/properties/${id}`).remove();
-        availableIds.push(id);
+        await database.ref().update(updates);
         await loadProperties();
-      } catch(error) { alert("Erreur lors de la suppression"); }
+        return true;
+      } catch (error) { alert("Erreur lors de l'enregistrement"); return false; }
     }
-  }
-  
-  function isIdAvailable(id) { return !currentProperties.some(p => p.id === id); }
-  
-  function updateIdStatus() {
-    const idInput = document.getElementById("adminId");
-    const idStatus = document.getElementById("idStatus");
-    const id = idInput.value.trim();
-    if (id && isIdAvailable(id)) {
-      idStatus.innerHTML = '<span class="free-id-badge"><i class="fas fa-check"></i> ID disponible</span>';
-    } else if (id && !isIdAvailable(id)) {
-      idStatus.innerHTML = '<span style="color:#e74c3c;"><i class="fas fa-times"></i> ID déjà utilisé</span>';
-    } else {
-      idStatus.innerHTML = '<span style="color:#27ae60;"><i class="fas fa-plus"></i> Nouveau bien - ID auto</span>';
+
+    async function deleteProperty(id) {
+      if (confirm("Supprimer ce bien ? L'ID sera réutilisable.")) {
+        try {
+          await database.ref(`/properties/${id}`).remove();
+          availableIds.push(id);
+          await loadProperties();
+        } catch (error) { alert("Erreur lors de la suppression"); }
+      }
     }
-  }
-  
-  function openGallery(images, startIndex = 0) {
-    if (!images || images.length === 0) return;
-    currentGalleryImages = images;
-    currentGalleryIndex = startIndex;
-    const modal = document.getElementById('galleryModal');
-    const mainImg = document.getElementById('galleryMainImg');
-    const thumbnailsDiv = document.getElementById('galleryThumbnails');
-    mainImg.src = images[startIndex];
-    thumbnailsDiv.innerHTML = '';
-    images.forEach((img, idx) => {
-      const thumb = document.createElement('img');
-      thumb.src = img;
-      if (idx === startIndex) thumb.classList.add('active');
-      thumb.addEventListener('click', () => {
-        currentGalleryIndex = idx;
-        mainImg.src = images[idx];
-        document.querySelectorAll('#galleryThumbnails img').forEach(t => t.classList.remove('active'));
-        thumb.classList.add('active');
+
+    function isIdAvailable(id) { return !currentProperties.some(p => p.id === id); }
+
+    function updateIdStatus() {
+      const idInput = document.getElementById("adminId");
+      const idStatus = document.getElementById("idStatus");
+      const id = idInput.value.trim();
+      if (id && isIdAvailable(id)) {
+        idStatus.innerHTML = '<span class="free-id-badge"><i class="fas fa-check"></i> ID disponible</span>';
+      } else if (id && !isIdAvailable(id)) {
+        idStatus.innerHTML = '<span style="color:#e74c3c;"><i class="fas fa-times"></i> ID déjà utilisé</span>';
+      } else {
+        idStatus.innerHTML = '<span style="color:#27ae60;"><i class="fas fa-plus"></i> Nouveau bien - ID auto</span>';
+      }
+    }
+
+    function openGallery(images, startIndex = 0) {
+      if (!images || images.length === 0) return;
+      currentGalleryImages = images;
+      currentGalleryIndex = startIndex;
+      const modal = document.getElementById('galleryModal');
+      const mainImg = document.getElementById('galleryMainImg');
+      const thumbnailsDiv = document.getElementById('galleryThumbnails');
+      mainImg.src = images[startIndex];
+      thumbnailsDiv.innerHTML = '';
+      images.forEach((img, idx) => {
+        const thumb = document.createElement('img');
+        thumb.src = img;
+        if (idx === startIndex) thumb.classList.add('active');
+        thumb.addEventListener('click', () => {
+          currentGalleryIndex = idx;
+          mainImg.src = images[idx];
+          document.querySelectorAll('#galleryThumbnails img').forEach(t => t.classList.remove('active'));
+          thumb.classList.add('active');
+        });
+        thumbnailsDiv.appendChild(thumb);
       });
-      thumbnailsDiv.appendChild(thumb);
-    });
-    modal.style.display = 'block';
-  }
-  
-  function prevImage() {
-    if (currentGalleryImages.length > 1) {
-      currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-      document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
-      updateThumbnailsActive();
+      modal.style.display = 'block';
     }
-  }
-  
-  function nextImage() {
-    if (currentGalleryImages.length > 1) {
-      currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
-      document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
-      updateThumbnailsActive();
+
+    function prevImage() {
+      if (currentGalleryImages.length > 1) {
+        currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+        document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
+        updateThumbnailsActive();
+      }
     }
-  }
-  
-  function updateThumbnailsActive() {
-    const thumbs = document.querySelectorAll('#galleryThumbnails img');
-    thumbs.forEach((t, i) => {
-      if (i === currentGalleryIndex) t.classList.add('active');
-      else t.classList.remove('active');
-    });
-  }
-  
-  function renderProperties(properties) {
-    const grid = document.getElementById("propertiesGrid");
-    if (!grid) return;
-    if (properties.length === 0) {
-      grid.innerHTML = "<div style='text-align:center; width:100%;'>Aucun bien disponible</div>";
-      return;
+
+    function nextImage() {
+      if (currentGalleryImages.length > 1) {
+        currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+        document.getElementById('galleryMainImg').src = currentGalleryImages[currentGalleryIndex];
+        updateThumbnailsActive();
+      }
     }
-    const t = translations[currentLang];
-    let html = "";
-    properties.forEach((prop, index) => {
-      const typeLabel = prop.type === "vente" ? "🏷️ " + t.saleLabel : "🔑 " + t.rentLabel;
-      const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['https://placehold.co/600x400?text=Image+non+disponible']);
-      const mainImg = images[0];
-      const imageUrls = JSON.stringify(images);
-      const categoryLabel = t.propertyTypes[prop.category] || prop.category?.toUpperCase() || "BIEN";
-      const descId = `desc_${prop.id}_${index}`;
-      const btnId = `btn_${prop.id}_${index}`;
-      const description = prop.description || "";
-      const needsExpand = description.length > 150;
-      
-      html += `
+
+    function updateThumbnailsActive() {
+      const thumbs = document.querySelectorAll('#galleryThumbnails img');
+      thumbs.forEach((t, i) => {
+        if (i === currentGalleryIndex) t.classList.add('active');
+        else t.classList.remove('active');
+      });
+    }
+
+    function renderProperties(properties) {
+      const grid = document.getElementById("propertiesGrid");
+      if (!grid) return;
+      if (properties.length === 0) {
+        grid.innerHTML = "<div style='text-align:center; width:100%;'>Aucun bien disponible</div>";
+        return;
+      }
+      const t = translations[currentLang];
+      let html = "";
+      properties.forEach((prop, index) => {
+        const typeLabel = prop.type === "vente" ? "🏷️ " + t.saleLabel : "🔑 " + t.rentLabel;
+        const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['https://placehold.co/600x400?text=Image+non+disponible']);
+        const mainImg = images[0];
+        const imageUrls = JSON.stringify(images);
+        const categoryLabel = t.propertyTypes[prop.category] || prop.category?.toUpperCase() || "BIEN";
+        const descId = `desc_${prop.id}_${index}`;
+        const btnId = `btn_${prop.id}_${index}`;
+        const description = prop.description || "";
+        const needsExpand = description.length > 150;
+
+        html += `
         <div class="property-card">
           <img src="${mainImg}" alt="${escapeHtml(prop.title)}" onclick='openGallery(${imageUrls}, 0)'>
           <div class="property-info">
@@ -1199,17 +1398,17 @@
           </div>
         </div>
       `;
-    });
-    grid.innerHTML = html;
-  }
-  
-  function renderAdminTable(properties) {
-    const tbody = document.getElementById("adminTableBody");
-    if (!tbody) return;
-    if (properties.length === 0) { tbody.innerHTML = "</td><td colspan='7'>Aucun bien</td></tr>"; return; }
-    let html = "";
-    properties.forEach(prop => {
-      html += `
+      });
+      grid.innerHTML = html;
+    }
+
+    function renderAdminTable(properties) {
+      const tbody = document.getElementById("adminTableBody");
+      if (!tbody) return;
+      if (properties.length === 0) { tbody.innerHTML = "</td><td colspan='7'>Aucun bien</td></tr>"; return; }
+      let html = "";
+      properties.forEach(prop => {
+        html += `
         <tr>
           <td><strong>${escapeHtml(prop.id)}</strong></td>
           <td>${escapeHtml(prop.type)}</td>
@@ -1220,112 +1419,122 @@
           <td><button class="edit-btn" onclick="editProperty('${prop.id}')"><i class="fas fa-edit"></i> Modifier</button><button onclick="deleteProperty('${prop.id}')"><i class="fas fa-trash"></i> Supprimer</button></td>
         </tr>
       `;
-    });
-    tbody.innerHTML = html;
-  }
-  
-  window.editProperty = function(id) {
-    const prop = currentProperties.find(p => p.id === id);
-    if (prop) {
-      document.getElementById("adminId").value = prop.id;
-      document.getElementById("adminType").value = prop.type;
-      document.getElementById("adminCategory").value = prop.category || "villa";
-      document.getElementById("adminTitle").value = prop.title;
-      document.getElementById("adminPrice").value = prop.price;
-      document.getElementById("adminAddress").value = prop.address;
-      document.getElementById("adminDescription").value = prop.description || "";
-      const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['']);
-      updateImageInputs(images);
-      updateIdStatus();
+      });
+      tbody.innerHTML = html;
     }
-  };
-  
-  function escapeHtml(str) {
-    if (!str) return "";
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
+
+    window.editProperty = function (id) {
+      const prop = currentProperties.find(p => p.id === id);
+      if (prop) {
+        document.getElementById("adminId").value = prop.id;
+        document.getElementById("adminType").value = prop.type;
+        document.getElementById("adminCategory").value = prop.category || "villa";
+        document.getElementById("adminTitle").value = prop.title;
+        document.getElementById("adminPrice").value = prop.price;
+        document.getElementById("adminAddress").value = prop.address;
+        document.getElementById("adminDescription").value = prop.description || "";
+        const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['']);
+        updateImageInputs(images);
+        updateIdStatus();
+      }
+    };
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str.replace(/[&<>]/g, function (m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    let currentFilter = "all";
+    function filterProperties(filter) {
+      currentFilter = filter;
+      let filtered = [...currentProperties];
+      if (filter !== "all") filtered = currentProperties.filter(p => p.type === filter);
+      renderProperties(filtered);
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        if (btn.dataset.filter === filter) btn.classList.add("active");
+        else btn.classList.remove("active");
+      });
+    }
+
+    window.filterProperties = filterProperties;
+    window.openGallery = openGallery;
+    window.deleteProperty = deleteProperty;
+    window.editProperty = editProperty;
+
+    document.getElementById("savePropertyBtn")?.addEventListener("click", async () => {
+      const customId = document.getElementById("adminId").value.trim();
+      const type = document.getElementById("adminType").value;
+      const category = document.getElementById("adminCategory").value;
+      const title = document.getElementById("adminTitle").value.trim();
+      const price = document.getElementById("adminPrice").value.trim();
+      const address = document.getElementById("adminAddress").value.trim();
+      const description = document.getElementById("adminDescription").value.trim();
+      const images = getImagesFromForm();
+      if (!title || !price || !address || images.length === 0 || !images[0]) {
+        alert("Veuillez remplir tous les champs obligatoires");
+        return;
+      }
+      if (images.length > 6) { alert("Maximum 6 photos"); return; }
+      const propertyData = { type, category, title, price, address, description, images };
+      const success = await saveProperty(propertyData, customId || null);
+      if (success) {
+        document.getElementById("adminId").value = "";
+        document.getElementById("adminTitle").value = "";
+        document.getElementById("adminPrice").value = "";
+        document.getElementById("adminAddress").value = "";
+        document.getElementById("adminDescription").value = "";
+        updateImageInputs(['']);
+        updateIdStatus();
+        alert("Bien enregistré !");
+      }
     });
-  }
-  
-  let currentFilter = "all";
-  function filterProperties(filter) {
-    currentFilter = filter;
-    let filtered = [...currentProperties];
-    if (filter !== "all") filtered = currentProperties.filter(p => p.type === filter);
-    renderProperties(filtered);
+
+    document.getElementById("adminId")?.addEventListener("input", updateIdStatus);
+    document.getElementById("addImageBtn")?.addEventListener("click", () => {
+      const currentRows = document.querySelectorAll('.image-input-row');
+      if (currentRows.length < 6) {
+        const container = document.getElementById('imageInputsContainer');
+        const row = document.createElement('div');
+        row.className = 'image-input-row';
+        row.innerHTML = `<input type="text" class="img-link-input" placeholder="Lien image ${currentRows.length + 1}"><button type="button" class="remove-img-btn">✕</button>`;
+        container.appendChild(row);
+        row.querySelector('.remove-img-btn').addEventListener('click', () => row.remove());
+      } else alert("Maximum 6 photos");
+    });
+
+    const adminModal = document.getElementById("adminModal");
+    const closeModal = document.querySelector(".close-modal");
+    closeModal?.addEventListener("click", () => { adminModal.style.display = "none"; });
+    window.addEventListener("click", (e) => { if (e.target === adminModal) adminModal.style.display = "none"; });
+
+    const galleryModalEl = document.getElementById("galleryModal");
+    const closeGallery = document.querySelector(".close-gallery");
+    closeGallery?.addEventListener("click", () => { galleryModalEl.style.display = "none"; });
+    window.addEventListener("click", (e) => { if (e.target === galleryModalEl) galleryModalEl.style.display = "none"; });
+    document.getElementById("galleryPrev")?.addEventListener("click", prevImage);
+    document.getElementById("galleryNext")?.addEventListener("click", nextImage);
+
+    // Navigation clavier pour la galerie
+    document.addEventListener("keydown", (e) => {
+      if (galleryModalEl.style.display === "block") {
+        if (e.key === "ArrowLeft") prevImage();
+        else if (e.key === "ArrowRight") nextImage();
+        else if (e.key === "Escape") galleryModalEl.style.display = "none";
+      }
+    });
+
     document.querySelectorAll(".filter-btn").forEach(btn => {
-      if (btn.dataset.filter === filter) btn.classList.add("active");
-      else btn.classList.remove("active");
+      btn.addEventListener("click", () => filterProperties(btn.dataset.filter));
     });
-  }
-  
-  window.filterProperties = filterProperties;
-  window.openGallery = openGallery;
-  window.deleteProperty = deleteProperty;
-  window.editProperty = editProperty;
-  
-  document.getElementById("savePropertyBtn")?.addEventListener("click", async () => {
-    const customId = document.getElementById("adminId").value.trim();
-    const type = document.getElementById("adminType").value;
-    const category = document.getElementById("adminCategory").value;
-    const title = document.getElementById("adminTitle").value.trim();
-    const price = document.getElementById("adminPrice").value.trim();
-    const address = document.getElementById("adminAddress").value.trim();
-    const description = document.getElementById("adminDescription").value.trim();
-    const images = getImagesFromForm();
-    if (!title || !price || !address || images.length === 0 || !images[0]) {
-      alert("Veuillez remplir tous les champs obligatoires");
-      return;
-    }
-    if (images.length > 6) { alert("Maximum 6 photos"); return; }
-    const propertyData = { type, category, title, price, address, description, images };
-    const success = await saveProperty(propertyData, customId || null);
-    if (success) {
-      document.getElementById("adminId").value = "";
-      document.getElementById("adminTitle").value = "";
-      document.getElementById("adminPrice").value = "";
-      document.getElementById("adminAddress").value = "";
-      document.getElementById("adminDescription").value = "";
-      updateImageInputs(['']);
-      updateIdStatus();
-      alert("Bien enregistré !");
-    }
-  });
-  
-  document.getElementById("adminId")?.addEventListener("input", updateIdStatus);
-  document.getElementById("addImageBtn")?.addEventListener("click", () => {
-    const currentRows = document.querySelectorAll('.image-input-row');
-    if (currentRows.length < 6) {
-      const container = document.getElementById('imageInputsContainer');
-      const row = document.createElement('div');
-      row.className = 'image-input-row';
-      row.innerHTML = `<input type="text" class="img-link-input" placeholder="Lien image ${currentRows.length + 1}"><button type="button" class="remove-img-btn">✕</button>`;
-      container.appendChild(row);
-      row.querySelector('.remove-img-btn').addEventListener('click', () => row.remove());
-    } else alert("Maximum 6 photos");
-  });
-  
-  const adminModal = document.getElementById("adminModal");
-  const closeModal = document.querySelector(".close-modal");
-  closeModal?.addEventListener("click", () => { adminModal.style.display = "none"; });
-  window.addEventListener("click", (e) => { if (e.target === adminModal) adminModal.style.display = "none"; });
-  
-  const galleryModalEl = document.getElementById("galleryModal");
-  const closeGallery = document.querySelector(".close-gallery");
-  closeGallery?.addEventListener("click", () => { galleryModalEl.style.display = "none"; });
-  window.addEventListener("click", (e) => { if (e.target === galleryModalEl) galleryModalEl.style.display = "none"; });
-  document.getElementById("galleryPrev")?.addEventListener("click", prevImage);
-  document.getElementById("galleryNext")?.addEventListener("click", nextImage);
-  
-  document.querySelectorAll(".filter-btn").forEach(btn => {
-    btn.addEventListener("click", () => filterProperties(btn.dataset.filter));
-  });
-  
-  updateLanguage("fr");
-  loadProperties();
-</script>
+
+    updateLanguage("fr");
+    loadProperties();
+  </script>
 </body>
+
 </html>
