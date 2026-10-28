@@ -1025,7 +1025,7 @@
               <div id="propertyDetailPrice" style="font-size: 1.8rem; font-weight: bold; color: #d68b45; margin-bottom: 0.5rem;"></div>
               <div id="propertyDetailAddress" style="color: #7f8c8d; margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> </div>
             </div>
-            <button id="sharePropertyBtn" onclick="shareProperty()" style="background: #f0e4d4; color: #b45f2b; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: 600;"><i class="fas fa-share-alt"></i> Partager</button>
+            <button id="sharePropertyBtn" onclick="showShareOptions()" style="background: #f0e4d4; color: #b45f2b; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: 600;"><i class="fas fa-share-alt"></i> Partager</button>
           </div>
           <div style="margin-bottom: 1rem;">
             <h3 style="color: #b45f2b; margin-bottom: 0.5rem;" id="propertyDetailTitleText">Titre</h3>
@@ -1039,6 +1039,22 @@
             <a id="propertyDetailWaBtn" href="#" class="contact-btn" target="_blank" style="width: auto; display: inline-flex;"><i class="fab fa-whatsapp"></i> Contacter sur WhatsApp</a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Partage -->
+  <div id="shareModal" class="modal">
+    <div class="modal-content" style="max-width: 420px;">
+      <div class="modal-header">
+        <h2><i class="fas fa-share-alt"></i> Partager cette annonce</h2>
+        <span class="close-share-modal">&times;</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button onclick="shareVia('whatsapp')" style="background: #25D366; color: white; border: none; padding: 12px; border-radius: 40px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        <button onclick="shareVia('facebook')" style="background: #1877F2; color: white; border: none; padding: 12px; border-radius: 40px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fab fa-facebook"></i> Facebook</button>
+        <button onclick="shareVia('instagram')" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); color: white; border: none; padding: 12px; border-radius: 40px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fab fa-instagram"></i> Instagram</button>
+        <button onclick="shareVia('telegram')" style="background: #0088cc; color: white; border: none; padding: 12px; border-radius: 40px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fab fa-telegram"></i> Telegram</button>
       </div>
     </div>
   </div>
@@ -1638,46 +1654,74 @@
       openGallery(images, 0);
     }
 
-    async function shareProperty() {
+    // Modal Partage
+    let currentShareUrl = '';
+    const shareModal = document.getElementById("shareModal");
+    const closeShareModal = document.querySelector(".close-share-modal");
+    closeShareModal?.addEventListener("click", () => { shareModal.style.display = "none"; });
+    window.addEventListener("click", (e) => { if (e.target === shareModal) shareModal.style.display = "none"; });
+
+    function showShareOptions() {
+      if (!currentDetailProperty) return;
+      currentShareUrl = `${window.location.origin}${window.location.pathname}?id=${currentDetailProperty.id}`;
+      shareModal.style.display = "block";
+    }
+
+    function shareVia(platform) {
       if (!currentDetailProperty) return;
       const t = translations[currentLang];
-      const url = `${window.location.origin}${window.location.pathname}?id=${currentDetailProperty.id}`;
-      const text = `${t.contactWaMessage} - ${currentDetailProperty.title} (Réf: ${currentDetailProperty.id}) - ${url}`;
+      const url = currentShareUrl || `${window.location.origin}${window.location.pathname}?id=${currentDetailProperty.id}`;
+      const text = `${currentDetailProperty.title} - Réf: ${currentDetailProperty.id} | Himmokech`;
+      const fullText = `${t.contactWaMessage} - ${text}`;
       
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: currentDetailProperty.title,
-            text: `${currentDetailProperty.title} - Réf: ${currentDetailProperty.id} | Himmokech`,
-            url: url
+      if (platform === 'whatsapp') {
+        window.open(`https://wa.me/?text=${encodeURIComponent(fullText + " " + url)}`, '_blank');
+      } else if (platform === 'facebook') {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+      } else if (platform === 'instagram') {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(url).then(() => {
+            alert('Lien copié. Collez-le dans votre story ou post Instagram.');
           });
-        } catch (err) {
-          console.log('Erreur partage:', err);
-        }
-      } else {
-        try {
-          await navigator.clipboard.writeText(url);
-          alert('Lien copié dans le presse-papiers !');
-        } catch (err) {
-          // Fallback
+        } else {
           const textarea = document.createElement('textarea');
           textarea.value = url;
           document.body.appendChild(textarea);
           textarea.select();
           document.execCommand('copy');
           document.body.removeChild(textarea);
-          alert('Lien copié !');
+          alert('Lien copié. Collez-le dans votre story ou post Instagram.');
+        }
+        window.open('https://www.instagram.com/', '_blank');
+      } else if (platform === 'telegram') {
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+      }
+      shareModal.style.display = "none";
+    }
+
+    function shareProperty() {
+      showShareOptions();
+    }
+
+    window.showShareOptions = showShareOptions;
+    window.shareVia = shareVia;
+    window.shareProperty = shareProperty;
+
+    // Ouverture automatique depuis URL ?id=...
+    function checkUrlForProperty() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id && currentProperties.length > 0) {
+        const prop = currentProperties.find(p => p.id === id);
+        if (prop) {
+          setTimeout(() => openPropertyDetail(prop), 500);
         }
       }
     }
 
-    window.openPropertyDetail = openPropertyDetail;
-    window.openGalleryFromDetail = openGalleryFromDetail;
-    window.shareProperty = shareProperty;
-
     // Navigation clavier pour la galerie
     document.addEventListener("keydown", (e) => {
-      if (galleryModalEl.style.display === "block") {
+      if (galleryModalEl && galleryModalEl.style.display === "block") {
         if (e.key === "ArrowLeft") prevImage();
         else if (e.key === "ArrowRight") nextImage();
         else if (e.key === "Escape") galleryModalEl.style.display = "none";
@@ -1689,7 +1733,9 @@
     });
 
     updateLanguage("fr");
-    loadProperties();
+    loadProperties().then(() => {
+      checkUrlForProperty();
+    });
   </script>
 </body>
 
