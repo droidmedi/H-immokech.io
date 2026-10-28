@@ -1003,6 +1003,46 @@
     </div>
   </div>
 
+  <!-- Modal Détails Annonce -->
+  <div id="propertyDetailModal" class="modal">
+    <div class="modal-content" style="max-width: 1000px;">
+      <div class="modal-header">
+        <h2 id="propertyDetailTitle"><i class="fas fa-home"></i> Détails de l'annonce</h2>
+        <span class="close-property-modal">&times;</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div>
+          <div style="position: relative; margin-bottom: 1rem;">
+            <img id="propertyDetailMainImg" src="" alt="Photo" style="width: 100%; height: 300px; object-fit: cover; border-radius: 20px; cursor: pointer;" onclick="openGalleryFromDetail()">
+            <button onclick="openGalleryFromDetail()" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer;"><i class="fas fa-images"></i> Voir toutes les photos</button>
+          </div>
+          <div id="propertyDetailThumbnails" style="display: flex; gap: 8px; overflow-x: auto;"></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+            <div>
+              <div id="propertyDetailCatType" style="margin-bottom: 0.5rem;"></div>
+              <div id="propertyDetailPrice" style="font-size: 1.8rem; font-weight: bold; color: #d68b45; margin-bottom: 0.5rem;"></div>
+              <div id="propertyDetailAddress" style="color: #7f8c8d; margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> </div>
+            </div>
+            <button id="sharePropertyBtn" onclick="shareProperty()" style="background: #f0e4d4; color: #b45f2b; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: 600;"><i class="fas fa-share-alt"></i> Partager</button>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <h3 style="color: #b45f2b; margin-bottom: 0.5rem;" id="propertyDetailTitleText">Titre</h3>
+            <p id="propertyDetailId" style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;"></p>
+          </div>
+          <div>
+            <h3 style="color: #b45f2b; margin-bottom: 0.5rem;">Description</h3>
+            <p id="propertyDetailDesc" style="color: #555; line-height: 1.6; white-space: pre-wrap;"></p>
+          </div>
+          <div style="margin-top: 1.5rem;">
+            <a id="propertyDetailWaBtn" href="#" class="contact-btn" target="_blank" style="width: auto; display: inline-flex;"><i class="fab fa-whatsapp"></i> Contacter sur WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer id="footer">
     <p><span class="copyright" id="copyrightSymbol">©</span> <span id="footerText">2025 Himmokech - Agence immobilière
         en ligne | Marrakech et région | Contact WhatsApp: 06 67 09 27 29</span></p>
@@ -1384,9 +1424,9 @@
         const description = prop.description || "";
         const needsExpand = description.length > 150;
 
-        html += `
+         html += `
         <div class="property-card">
-          <img src="${mainImg}" alt="${escapeHtml(prop.title)}" onclick='openGallery(${imageUrls}, 0)'>
+          <img src="${mainImg}" alt="${escapeHtml(prop.title)}" onclick='openPropertyDetail("${prop.id}")'>
           <div class="property-info">
             <div><span class="property-cat">${categoryLabel}</span><span class="property-cat">${typeLabel}</span></div>
             <div class="property-title">${escapeHtml(prop.title)}</div>
@@ -1394,7 +1434,10 @@
             <div class="property-address"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(prop.address)}</div>
             <div id="${descId}" class="property-desc">${escapeHtml(description)}</div>
             ${needsExpand ? `<button class="read-more-btn" id="${btnId}" onclick="toggleDescription('${descId}', this)">${t.readMore}</button>` : ''}
-            <a href="https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage + " - " + prop.title)}" class="contact-btn" target="_blank"><i class="fab fa-whatsapp"></i> ${t.contactAgent}</a>
+            <div style="display: flex; gap: 8px; margin-top: 0.8rem;">
+              <button onclick='openPropertyDetail("${prop.id}")' style="flex: 1; background: #f0e4d4; color: #b45f2b; border: none; padding: 0.5rem; border-radius: 40px; cursor: pointer; font-weight: 600;"><i class="fas fa-eye"></i> Voir détails</button>
+              <a href="https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage + " - " + prop.title)}" class="contact-btn" target="_blank" style="flex: 1; margin-top: 0;"><i class="fab fa-whatsapp"></i> ${t.contactAgent}</a>
+            </div>
           </div>
         </div>
       `;
@@ -1525,12 +1568,112 @@
     closeModal?.addEventListener("click", () => { adminModal.style.display = "none"; });
     window.addEventListener("click", (e) => { if (e.target === adminModal) adminModal.style.display = "none"; });
 
-    const galleryModalEl = document.getElementById("galleryModal");
+     const galleryModalEl = document.getElementById("galleryModal");
     const closeGallery = document.querySelector(".close-gallery");
     closeGallery?.addEventListener("click", () => { galleryModalEl.style.display = "none"; });
     window.addEventListener("click", (e) => { if (e.target === galleryModalEl) galleryModalEl.style.display = "none"; });
     document.getElementById("galleryPrev")?.addEventListener("click", prevImage);
     document.getElementById("galleryNext")?.addEventListener("click", nextImage);
+
+    // Modal Détails Annonce
+    let currentDetailProperty = null;
+    const propertyDetailModal = document.getElementById("propertyDetailModal");
+    const closePropertyModal = document.querySelector(".close-property-modal");
+    closePropertyModal?.addEventListener("click", () => { propertyDetailModal.style.display = "none"; });
+    window.addEventListener("click", (e) => { if (e.target === propertyDetailModal) propertyDetailModal.style.display = "none"; });
+
+    function openPropertyDetail(property) {
+      let prop;
+      if (typeof property === 'string') {
+        prop = currentProperties.find(p => p.id === property);
+        if (!prop) return;
+      } else {
+        prop = property;
+      }
+      currentDetailProperty = prop;
+      const t = translations[currentLang];
+      document.getElementById("propertyDetailTitle").innerHTML = '<i class="fas fa-home"></i> ' + escapeHtml(prop.title);
+      document.getElementById("propertyDetailTitleText").innerText = prop.title;
+      document.getElementById("propertyDetailId").innerText = `Réf: ${prop.id}`;
+      document.getElementById("propertyDetailPrice").innerText = prop.price;
+      document.getElementById("propertyDetailAddress").innerHTML = `<i class="fas fa-map-marker-alt"></i> ${escapeHtml(prop.address)}`;
+      document.getElementById("propertyDetailDesc").innerText = prop.description || "";
+      
+      const typeLabel = prop.type === "vente" ? "🏷️ " + t.saleLabel : "🔑 " + t.rentLabel;
+      const categoryLabel = t.propertyTypes[prop.category] || prop.category?.toUpperCase() || "BIEN";
+      document.getElementById("propertyDetailCatType").innerHTML = `<span class="property-cat">${categoryLabel}</span><span class="property-cat">${typeLabel}</span>`;
+      
+      const images = prop.images || (prop.imageLink ? [prop.imageLink] : ['https://placehold.co/600x400?text=Image+non+disponible']);
+      document.getElementById("propertyDetailMainImg").src = images[0];
+      
+      const thumbsDiv = document.getElementById("propertyDetailThumbnails");
+      thumbsDiv.innerHTML = '';
+      images.forEach((img, idx) => {
+        const thumb = document.createElement('img');
+        thumb.src = img;
+        thumb.style.width = '80px';
+        thumb.style.height = '60px';
+        thumb.style.objectFit = 'cover';
+        thumb.style.borderRadius = '10px';
+        thumb.style.cursor = 'pointer';
+        thumb.style.opacity = idx === 0 ? '1' : '0.6';
+        thumb.onclick = () => {
+          document.getElementById("propertyDetailMainImg").src = img;
+          document.querySelectorAll('#propertyDetailThumbnails img').forEach((tImg, i) => {
+            tImg.style.opacity = i === idx ? '1' : '0.6';
+          });
+        };
+        thumbsDiv.appendChild(thumb);
+      });
+      
+      document.getElementById("propertyDetailWaBtn").href = `https://wa.me/212667092729?text=${encodeURIComponent(t.contactWaMessage + " - " + prop.title + " (Réf: " + prop.id + ")")}`;
+      
+      propertyDetailModal.style.display = "block";
+    }
+
+    function openGalleryFromDetail() {
+      if (!currentDetailProperty) return;
+      const images = currentDetailProperty.images || (currentDetailProperty.imageLink ? [currentDetailProperty.imageLink] : ['https://placehold.co/600x400?text=Image+non+disponible']);
+      propertyDetailModal.style.display = "none";
+      openGallery(images, 0);
+    }
+
+    async function shareProperty() {
+      if (!currentDetailProperty) return;
+      const t = translations[currentLang];
+      const url = `${window.location.origin}${window.location.pathname}?id=${currentDetailProperty.id}`;
+      const text = `${t.contactWaMessage} - ${currentDetailProperty.title} (Réf: ${currentDetailProperty.id}) - ${url}`;
+      
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: currentDetailProperty.title,
+            text: `${currentDetailProperty.title} - Réf: ${currentDetailProperty.id} | Himmokech`,
+            url: url
+          });
+        } catch (err) {
+          console.log('Erreur partage:', err);
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(url);
+          alert('Lien copié dans le presse-papiers !');
+        } catch (err) {
+          // Fallback
+          const textarea = document.createElement('textarea');
+          textarea.value = url;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          alert('Lien copié !');
+        }
+      }
+    }
+
+    window.openPropertyDetail = openPropertyDetail;
+    window.openGalleryFromDetail = openGalleryFromDetail;
+    window.shareProperty = shareProperty;
 
     // Navigation clavier pour la galerie
     document.addEventListener("keydown", (e) => {
